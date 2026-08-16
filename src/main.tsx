@@ -1054,9 +1054,7 @@ const customerReviews = [
   { name: 'BOOBALAN A', text: 'Good', age: '9 years ago' },
   { name: 'Thiyagu R', text: '', age: '4 years ago' },
   { name: 'Selva Kumar', text: '', age: '5 years ago' },
-  { name: 'Palanisamy Mani', text: '', age: '5 years ago' },
   { name: 'Somasundaram O', text: '', age: '7 years ago' },
-  { name: 'Thulasi Raj', text: '', age: '7 years ago' },
   { name: 'Bala Kumar', text: '', age: '9 years ago' },
 ];
 
@@ -1072,8 +1070,9 @@ function ReviewsPage() {
         <div className="review-card__top">
           <strong>{review.name}</strong>
           <span>{review.age}</span>
+          <span className="review-card__stars" aria-label="5 star rating">★★★★★</span>
         </div>
-        {review.text && <p>“{review.text}”</p>}
+        {review.text ? <p>“{review.text}”</p> : <p className="review-card__rating">5-star Google review</p>}
       </article>)}
     </div>
   </section>;
