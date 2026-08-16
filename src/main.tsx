@@ -9,6 +9,9 @@ import './styles.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const navItems = [['Home', '#home'], ['Shop', '#shop'], ['Reviews', '#reviews']];
+const customerPhone = '9994536855';
+const customerPhoneDisplay = '+91 99945 36855';
+const whatsAppOrderLink = `https://wa.me/91${customerPhone}?text=Hi%20PK%20TEX%2C%20I%20want%20to%20place%20an%20order.`;
 
 function useReveal(route: string) {
   useEffect(() => {
@@ -52,7 +55,7 @@ function Hero() {
         <p className="hero__place">Elampillai</p>
         <p className="hero__since">Since 1998</p>
       </div>
-      <a className="hero__cta intro intro--5" href="#shop">Discover the collection <ArrowUpRight size={18}/></a>
+      <a className="hero__cta intro intro--5" href="#shop">Shop Sarees <ArrowUpRight size={18}/></a>
     </div>
   </section>;
 }
@@ -89,21 +92,20 @@ function Heritage() {
   }, []);
   return <section className="heritage" id="shop" ref={section}>
     <div className="heritage__silk" aria-hidden="true"><i/><i/><i/></div>
-    <div className="heritage__statement" aria-label="Over 30 years of weaving tradition">
-      <div className="heritage__mask"><span className="heritage__line">Over 30 years of</span></div>
-      <div className="heritage__mask"><span className="heritage__line heritage__line--accent">weaving</span></div>
-      <div className="heritage__mask"><span className="heritage__line">tradition.</span></div>
+    <div className="heritage__statement" aria-label="PK TEX sarees">
+      <div className="heritage__mask"><span className="heritage__line">PK TEX</span></div>
+      <div className="heritage__mask"><span className="heritage__line heritage__line--accent">Sarees</span></div>
     </div>
     <p className="heritage__kicker">ABOUT PK TEX <span>02</span></p>
     <div className="heritage__final">
       <div className="heritage__story">
-        <h2>A legacy,<br/><em>woven forward.</em></h2>
+        <h2>PK TEX<br/><em>Elampillai.</em></h2>
         <div className="heritage__copy">
-          <p>PK TEX is a trusted name in Elampillai, Salem with over 30 years of experience in saree manufacturing.</p>
-          <p>As a third-generation textile business, we proudly operate more than 400 in-house weaving looms, producing premium sarees that blend timeless craftsmanship with contemporary design.</p>
-          <p>Every thread reflects our family's dedication to quality, tradition and innovation. Today our creations reach customers across India and internationally, carrying the legacy of Indian weaving to homes around the world.</p>
+          <p>PK TEX makes sarees in Elampillai, Salem.</p>
+          <p>We have more than 30 years of experience and over 400 looms.</p>
+          <p>Our sarees are available across India and worldwide.</p>
         </div>
-        <a className="heritage__button" href="#contact">Get in touch <ArrowUpRight size={17}/></a>
+        <a className="heritage__button" href="#contact">Contact Us <ArrowUpRight size={17}/></a>
       </div>
       <div className="heritage__facts" id="reviews">
         {facts.map(([value, suffix, label]) => <article className="fact" key={label}>
@@ -153,38 +155,37 @@ function Collection() {
     return () => ctx.revert();
   }, []);
   return <section className="collection" id="collection" ref={section}>
-    <div className="collection__campaign-label"><span>PK TEX</span><p>Luxury Saree Collection</p></div>
+    <div className="collection__campaign-label"><span>PK TEX</span><p>Sarees</p></div>
     <header className="collection__heading">
-      <div><p>OUR COLLECTION</p><span>03</span></div>
-      <h2>Crafted with tradition.<br/><em>Designed for generations.</em></h2>
-      <p>Every weave tells a story of craftsmanship passed through generations.</p>
+      <div><p>SAREES</p><span>03</span></div>
+      <h2>Choose your<br/><em>favourite saree.</em></h2>
+      <p>Browse cotton, silk, checked, temple, and festive sarees.</p>
     </header>
     <div className="collection__grid">
       {Array.from({ length: 9 }, (_, i) => {
         const imageNumber = i === 4 ? 3 : i === 2 ? 5 : i + 1;
         const imageSrc = i === 4 ? '/images/saree-3-4k.png' : `/images/saree-${imageNumber}.jpg`;
         return <a className={`collection__tile ${i === 4 ? 'collection__tile--featured' : ''}`} data-index={i} href="#shop" key={i} aria-label={`View saree collection ${i + 1} in the shop`}>
-        <img src={imageSrc} alt={`PK TEX premium silk saree ${imageNumber}`}/>
-        <span className="collection__hover">View collection <ArrowUpRight size={16}/></span>
+        <img src={imageSrc} alt={`PK TEX saree ${imageNumber}`}/>
+        <span className="collection__hover">Shop now <ArrowUpRight size={16}/></span>
       </a>})}
     </div>
   </section>;
 }
 
 const serviceHighlights = [
-  { icon: Truck, title: 'Doorstep Delivery', detail: 'Delivery support directly to your address.' },
-  { icon: Globe2, title: 'Worldwide Shipping', detail: 'Shipping across India and to 5+ countries.' },
+  { icon: Truck, title: 'Doorstep Delivery', detail: 'Delivered to your address.' },
+  { icon: Globe2, title: 'Worldwide Shipping', detail: 'Shipping across India and abroad.' },
   { icon: RotateCcw, title: 'Free Returns', detail: 'Available with unboxing video proof.' },
-  { icon: Headphones, title: '24/7 Support', detail: 'Call Us: +91 93456 73735', href: 'tel:+919345673735' },
-  { icon: ShieldCheck, title: 'Secure Orders', detail: 'Your order details stay secure with PK TEX.' },
-  { icon: MessageCircle, title: 'WhatsApp Ordering', detail: 'Send the product and colour to place your order.', href: 'https://wa.me/919345673735?text=Hi%20PK%20TEX%2C%20I%20want%20to%20place%20an%20order.' },
+  { icon: Headphones, title: '24/7 Support', detail: `Call Us: ${customerPhoneDisplay}`, href: `tel:+91${customerPhone}` },
+  { icon: ShieldCheck, title: 'Secure Orders', detail: 'Your order details are secure with us.' },
+  { icon: MessageCircle, title: 'WhatsApp Ordering', detail: 'Send the saree photo to place your order.', href: whatsAppOrderLink },
 ];
 
 function ServiceHighlights() {
   return <section className="service-highlights" id="service" aria-labelledby="service-title">
     <header data-reveal>
-      <p className="section-kicker">PK TEX SERVICE</p>
-      <h2 id="service-title">Delivery and order support.</h2>
+      <h2 id="service-title">Order support</h2>
     </header>
     <div className="service-highlights__grid">
       {serviceHighlights.map(item => {
@@ -922,7 +923,7 @@ function ShopPage() {
   const selectedCategory = category ? shopCategories.find(item => item.name === category) ?? null : null;
   const getCategoryProducts = (categoryName: string) => shopProducts.filter(product => product.category === categoryName);
   const visibleProducts = category ? getCategoryProducts(category) : [];
-  const whatsappNumber = '919345673735';
+  const whatsappNumber = `91${customerPhone}`;
 
   useEffect(() => {
     if (!category) return;
@@ -953,7 +954,7 @@ function ShopPage() {
         <p>Cotton, silk, temple, and festive sarees from PK TEX, Elampillai.</p>
         <div className="shop-showcase__actions">
           <a href="#shop-collections">View categories <ArrowUpRight size={17}/></a>
-          <a href="https://wa.me/919345673735?text=Hi%20PK%20TEX%2C%20I%20want%20to%20place%20an%20order." target="_blank" rel="noreferrer"><MessageCircle size={17}/> WhatsApp</a>
+          <a href={whatsAppOrderLink} target="_blank" rel="noreferrer"><MessageCircle size={17}/> WhatsApp</a>
         </div>
       </div>
       <div className="shop-showcase__marquee" aria-hidden="true">
@@ -1036,21 +1037,52 @@ function ContactSection() {
   return <section className="contact" id="contact">
     <div data-reveal>
       <p className="section-kicker">PK TEX, ELAMPILLAI</p>
-      <h2>Speak with us<br/><em>about your order.</em></h2>
+      <h2>Contact us<br/><em>for your order.</em></h2>
     </div>
     <div className="contact__card" data-reveal>
       <MapPin size={22}/>
       <p>Kadyampetty, Elampillai<br/>Edaganasalai, Tamil Nadu 637502</p>
       <a href="https://maps.google.com/?q=PK+TEX+Elampillai" target="_blank" rel="noreferrer">Get directions <ArrowUpRight size={16}/></a>
-      <a href="https://wa.me/919345673735?text=Hi%20PK%20TEX%2C%20I%20want%20to%20place%20an%20order." target="_blank" rel="noreferrer">Order on WhatsApp <MessageCircle size={16}/></a>
+      <a href={whatsAppOrderLink} target="_blank" rel="noreferrer">Order on WhatsApp <MessageCircle size={16}/></a>
     </div>
-    <a className="call" href="tel:+919345673735" data-reveal><small>CALL US</small><span>+91 93456 73735</span></a>
+    <a className="call" href={`tel:+91${customerPhone}`} data-reveal><small>CALL US</small><span>{customerPhoneDisplay}</span></a>
+  </section>;
+}
+
+const customerReviews = [
+  { name: 'Venkatesh Sivaramakrishnan', text: 'Good quality products with affordable price.', age: 'Edited 3 years ago' },
+  { name: 'BOOBALAN A', text: 'Good', age: '9 years ago' },
+  { name: 'Thiyagu R', text: '', age: '4 years ago' },
+  { name: 'Selva Kumar', text: '', age: '5 years ago' },
+  { name: 'Palanisamy Mani', text: '', age: '5 years ago' },
+  { name: 'Somasundaram O', text: '', age: '7 years ago' },
+  { name: 'Thulasi Raj', text: '', age: '7 years ago' },
+  { name: 'Bala Kumar', text: '', age: '9 years ago' },
+];
+
+function ReviewsPage() {
+  return <section className="reviews-page" id="reviews">
+    <header className="reviews-page__head">
+      <p className="shop-eyebrow">CUSTOMER REVIEWS</p>
+      <h1>What customers say</h1>
+      <p>Reviews from Google.</p>
+    </header>
+    <div className="reviews-page__grid">
+      {customerReviews.map(review => <article className="review-card" key={review.name}>
+        <div className="review-card__top">
+          <strong>{review.name}</strong>
+          <span>{review.age}</span>
+        </div>
+        {review.text && <p>“{review.text}”</p>}
+      </article>)}
+    </div>
   </section>;
 }
 
 function App() {
   const [route, setRoute] = useState(window.location.hash || '#home');
   const isShop = route.startsWith('#shop');
+  const isReviews = route.startsWith('#reviews');
   useReveal(route);
 
   useEffect(() => {
@@ -1072,8 +1104,10 @@ function App() {
 
   return <><Header/><main>{isShop
     ? <ShopPage/>
-    : <><Hero/><ExpandingSareeAboutSection/><Collection/><ServiceHighlights/><ContactSection/></>}
-  </main><footer><a className="brand" href="#home"><span>PK</span><i/><span>TEX</span></a><p>Fine textiles from Elampillai</p><p>© 2026 PK TEX</p></footer></>;
+    : isReviews
+      ? <ReviewsPage/>
+      : <><Hero/><ExpandingSareeAboutSection/><Collection/><ServiceHighlights/><ContactSection/></>}
+  </main><footer><a className="brand" href="#home"><span>PK</span><i/><span>TEX</span></a><p>Elampillai, Tamil Nadu</p><p>© 2026 PK TEX</p></footer></>;
 }
 
 createRoot(document.getElementById('root')!).render(<App/>);

@@ -70,7 +70,6 @@ export default function ExpandingSareeAboutSection() {
   const bridgeOpacity = useTransform(scrollYProgress, [.88, 1], [0, .46]);
 
   return <section className="expanding-about" id="about" ref={sectionRef}>
-    <span className="expanding-about__reviews-anchor" id="reviews" aria-hidden="true" />
     <div className="expanding-about__sticky">
       <motion.div className="expanding-about__swatch" style={{ width: swatchWidth, height: swatchHeight }} aria-hidden="true" />
       <motion.div className="expanding-about__bridge" style={{ opacity: bridgeOpacity }} aria-hidden="true" />
@@ -79,11 +78,11 @@ export default function ExpandingSareeAboutSection() {
           <motion.p className="expanding-about__label" style={{ opacity: labelOpacity }}>ABOUT US <span>02</span></motion.p>
           <motion.h2 style={{ opacity: headingOpacity, x: headingX, y: headingY }}>PK TEX</motion.h2>
           <motion.div className="expanding-about__copy" style={{ opacity: copyOpacity, x: copyX, y: copyY }}>
-            <p>PK TEX is a trusted name in Elampillai, Salem with over 30 years of experience in saree manufacturing. As a third-generation textile business, we take pride in producing high-quality sarees using our own 400+ looms.</p>
-            <p>From our factory floor to your doorstep—every thread carries our legacy of craftsmanship. We combine traditional weaving techniques with modern designs to create sarees that celebrate India’s rich textile heritage.</p>
-            <p className="expanding-about__shipping">Shipping across India and worldwide to 5+ countries.</p>
+            <p>PK TEX is a saree manufacturer in Elampillai, Salem. We have more than 30 years of experience and over 400 looms.</p>
+            <p>We make cotton and silk sarees for customers in India and abroad.</p>
+            <p className="expanding-about__shipping">Shipping available across India and worldwide.</p>
           </motion.div>
-          <motion.a className="expanding-about__button" href="#contact" style={{ opacity: buttonOpacity, x: buttonX, y: buttonY }}>Get In Touch <ArrowUpRight size={17}/></motion.a>
+          <motion.a className="expanding-about__button" href="#contact" style={{ opacity: buttonOpacity, x: buttonX, y: buttonY }}>Contact Us <ArrowUpRight size={17}/></motion.a>
         </div>
         <motion.div className="expanding-about__stats" style={{ opacity: statsFrameOpacity }}>
           {stats.map((item, index) => <StatItem key={item.label} {...item} index={index} progress={scrollYProgress}/>) }
