@@ -164,9 +164,9 @@ function Collection() {
     <div className="collection__grid">
       {Array.from({ length: 9 }, (_, i) => {
         const imageNumber = i === 4 ? 3 : i === 2 ? 5 : i + 1;
-        const imageSrc = i === 4 ? '/images/saree-3-4k.png' : `/images/saree-${imageNumber}.jpg`;
+        const imageSrc = `/images/saree-${imageNumber}.avif`;
         return <a className={`collection__tile ${i === 4 ? 'collection__tile--featured' : ''}`} data-index={i} href="#shop" key={i} aria-label={`View saree collection ${i + 1} in the shop`}>
-        <img src={imageSrc} alt={`PK TEX saree ${imageNumber}`}/>
+        <img src={imageSrc} alt={`PK TEX saree ${imageNumber}`} loading="lazy" decoding="async" width="1280" height="853"/>
         <span className="collection__hover">Shop now <ArrowUpRight size={16}/></span>
       </a>})}
     </div>
@@ -206,91 +206,91 @@ const shopCategories = [
   {
     name: 'Swami & Amman Temple Sarees',
     description: 'Six-meter devotional sarees in Swami and Amman designs.',
-    image: '/images/shop-swami-gold-devotional.jpeg',
+    image: '/images/shop-swami-gold-devotional.jpg',
     count: 3,
   },
   {
     name: 'Kalyani Cotton Sarees',
     description: 'Kanchipuram-inspired cotton sarees with temple borders, breathable drape, and rich traditional colour pairings.',
-    image: '/images/shop-kalyani-01-a.jpeg',
+    image: '/images/shop-kalyani-01-a.avif',
     count: 21,
   },
   {
     name: 'Korvai Checked Cotton Sarees',
     description: 'Checked cotton sarees with bold korvai contrast borders, gold zari bands, and bright festive colour pairings.',
-    image: '/images/shop-korvai-checked-cotton-01.jpeg',
+    image: '/images/shop-korvai-checked-cotton-01.avif',
     count: 11,
   },
   {
     name: 'Maheshwari Cotton Sarees',
     description: 'Offer-ready Maheshwari cotton sarees with woven texture, small zari buttas, tassel edges, and contrast colour pairings.',
-    image: '/images/shop-maheshwari-cotton-01.jpeg',
+    image: '/images/shop-maheshwari-cotton-01.avif',
     count: 23,
   },
   {
     name: 'Palaku Design Sarees',
     description: 'Single-view folded sarees with ornate palaku-inspired motifs, silver zari highlights, and rich festive colours.',
-    image: '/images/shop-palaku-02.jpeg',
+    image: '/images/shop-palaku-02.avif',
     count: 15,
   },
   {
     name: 'Kadhi Cotton Sarees',
     description: 'Soft khadi cotton drapes with floral handwork, daisy and embroidered flower motifs, fringe detailing, and fresh everyday boutique colours.',
-    image: '/images/shop-kadhi-01.jpeg',
+    image: '/images/shop-kadhi-01.avif',
     count: 27,
   },
   {
     name: '120 Count Mul Mul Cotton Sarees',
     description: 'Weightless 120-count mul mul cotton sarees with airy stripes, soft tassels, and borderless everyday elegance.',
-    image: '/images/shop-mulmul-01.jpeg',
+    image: '/images/shop-mulmul-01.avif',
     count: 25,
   },
   {
     name: 'Rainbow Mul Mul Cotton Sarees',
     description: 'Soft rainbow-check mul mul cotton sarees with playful tassels, contrast blouse pieces, and airy summer colourways.',
-    image: '/images/shop-rainbow-mulmul-01.jpeg',
+    image: '/images/shop-rainbow-mulmul-01.avif',
     count: 5,
   },
   {
     name: 'Soft Silk Sarees',
     description: 'Premium soft silk sarees with luminous zari motifs, rich contrast pallus, and festive boutique colour pairings.',
-    image: '/images/shop-softsilk-01.jpeg',
+    image: '/images/shop-softsilk-01.avif',
     count: 21,
   },
   {
     name: 'Arani Soft Silk Sarees',
     description: 'Arani soft silk sarees with neat pleated presentation, fine zari line work, contrast pallus, and smooth festive colours.',
-    image: '/images/shop-arani-soft-silk-01.jpeg',
+    image: '/images/shop-arani-soft-silk-01.avif',
     count: 6,
   },
   {
     name: 'Fancy Silk Sarees',
     description: 'Shopping-ready fancy silk sarees with geometric embroidery, peacock-inspired motifs, glossy borders, and rich boutique colours.',
-    image: '/images/shop-fancy-silk-01.jpeg',
+    image: '/images/shop-fancy-silk-01.avif',
     count: 36,
   },
   {
     name: 'Tissue Printed Soft Cotton Sarees',
     description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
-    image: '/images/shop-tissue-printed-soft-cotton-01.jpeg',
+    image: '/images/shop-tissue-printed-soft-cotton-01.avif',
     count: 6,
   },
   {
     name: 'Sunflower Khadi Cotton Sarees',
     description: 'Fresh khadi cotton sarees with cheerful sunflower motifs, soft tassels, and artisanal studio styling.',
-    image: '/images/shop-sunflower-khadi-01.jpeg',
+    image: '/images/shop-sunflower-khadi-01.avif',
     count: 12,
   },
     {
       name: 'Kerala Cotton Sarees',
       description: 'Onam-ready Kerala cotton sarees in warm ivory tones with temple-inspired borders, festive motifs, and celebration styling.',
-      image: '/images/shop-kerala-cotton-01.jpeg',
+      image: '/images/shop-kerala-cotton-01.avif',
       count: 11,
     },
     {
       name: 'Kerala Checked Cotton Sarees',
       description: 'Checked Kerala cotton sarees in festive ivory and kasavu tones with printed floral borders, Onam styling, and blouse-inclusive 6.25m drapes.',
-      image: '/images/shop-kerala-checked-01.jpeg',
+      image: '/images/shop-kerala-checked-01.avif',
       count: 10,
     },
   ];
@@ -673,7 +673,7 @@ const shopProducts = [
     length: '6 meters',
     color: 'Turmeric Gold',
     price: devotionalOfferPrice,
-    images: ['/images/shop-swami-gold-devotional.jpeg', '/images/shop-swami-gold-folded.jpeg'],
+    images: ['/images/shop-swami-gold-devotional.jpg', '/images/shop-swami-gold-folded.avif'],
   },
   {
     id: 'amman-pink',
@@ -682,7 +682,7 @@ const shopProducts = [
     length: '6 meters',
     color: 'Kumkum Pink',
     price: devotionalOfferPrice,
-    images: ['/images/shop-amman-pink-devotional.jpeg', '/images/shop-amman-pink-folded.jpeg'],
+    images: ['/images/shop-amman-pink-devotional.jpg', '/images/shop-amman-pink-folded.avif'],
   },
   {
     id: 'amman-green',
@@ -691,7 +691,7 @@ const shopProducts = [
     length: '6 meters',
     color: 'Parrot Green',
     price: devotionalOfferPrice,
-    images: ['/images/shop-amman-green-devotional.jpeg', '/images/shop-amman-green-folded.jpeg'],
+    images: ['/images/shop-amman-green-devotional.avif', '/images/shop-amman-green-folded.avif'],
   },
   ...kalyaniColors.map((color, index) => {
     const item = String(index + 1).padStart(2, '0');
@@ -702,7 +702,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: kalyaniOfferPrice,
-      images: [`/images/shop-kalyani-${item}-a.jpeg`, `/images/shop-kalyani-${item}-b.jpeg`],
+      images: [`/images/shop-kalyani-${item}-a.avif`, `/images/shop-kalyani-${item}-b.avif`],
     };
   }),
   ...korvaiCheckedCottonColors.map((color, index) => {
@@ -714,7 +714,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: korvaiCheckedCottonOfferPrice,
-      images: [`/images/shop-korvai-checked-cotton-${item}.jpeg`],
+      images: [`/images/shop-korvai-checked-cotton-${item}.avif`],
     };
   }),
   ...maheshwariCottonColors.map((color, index) => {
@@ -726,7 +726,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: maheshwariOfferPrice,
-      images: [`/images/shop-maheshwari-cotton-${item}.jpeg`],
+      images: [`/images/shop-maheshwari-cotton-${item}.avif`],
     };
   }),
   ...palakuColors.map((color, index) => {
@@ -738,7 +738,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: palakuOfferPrice,
-      images: [`/images/shop-palaku-${item}.jpeg`],
+      images: [`/images/shop-palaku-${item}.avif`],
     };
   }),
   ...kadhiColors.map((color, index) => {
@@ -750,7 +750,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: kadhiOfferPrice,
-      images: [`/images/shop-kadhi-${item}.jpeg`],
+      images: [`/images/shop-kadhi-${item}.avif`],
     };
   }),
   ...mulmulColors.map((color, index) => {
@@ -762,7 +762,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: mulmulOfferPrice,
-      images: [`/images/shop-mulmul-${item}.jpeg`],
+      images: [`/images/shop-mulmul-${item}.avif`],
     };
   }),
   ...rainbowMulmulColors.map((color, index) => {
@@ -774,7 +774,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: rainbowMulmulOfferPrice,
-      images: [`/images/shop-rainbow-mulmul-${item}.jpeg`],
+      images: [`/images/shop-rainbow-mulmul-${item}.avif`],
     };
   }),
   ...softSilkColors.map((color, index) => {
@@ -786,7 +786,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: softSilkOfferPrice,
-      images: [`/images/shop-softsilk-${item}.jpeg`],
+      images: [`/images/shop-softsilk-${item}.avif`],
     };
   }),
   ...araniSoftSilkColors.map((color, index) => {
@@ -798,7 +798,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: araniSoftSilkOfferPrice,
-      images: [`/images/shop-arani-soft-silk-${item}.jpeg`],
+      images: [`/images/shop-arani-soft-silk-${item}.avif`],
     };
   }),
   ...fancySilkColors.map((color, index) => {
@@ -810,7 +810,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: fancyOfferPrice,
-      images: [`/images/shop-fancy-silk-${item}.jpeg`],
+      images: [`/images/shop-fancy-silk-${item}.avif`],
     };
   }),
   ...fancySilkPrintedColors.map((color, index) => {
@@ -822,7 +822,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: fancySilkPrintedOfferPrice,
-      images: [`/images/shop-fancy-silk-${item}.jpeg`],
+      images: [`/images/shop-fancy-silk-${item}.avif`],
     };
   }),
   ...tissuePrintedSoftCottonColors.map((color, index) => {
@@ -834,7 +834,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: tissuePrintedSoftCottonOfferPrice,
-      images: [`/images/shop-tissue-printed-soft-cotton-${item}.jpeg`],
+      images: [`/images/shop-tissue-printed-soft-cotton-${item}.avif`],
     };
   }),
   ...sunflowerKhadiColors.map((color, index) => {
@@ -846,7 +846,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: sunflowerKhadiOfferPrice,
-      images: [`/images/shop-sunflower-khadi-${item}.jpeg`],
+      images: [`/images/shop-sunflower-khadi-${item}.avif`],
     };
   }),
     ...keralaCottonColors.map((color, index) => {
@@ -858,7 +858,7 @@ const shopProducts = [
       length: '6.25 meters',
       color,
       price: keralaCottonOfferPrice,
-      images: [`/images/shop-kerala-cotton-${item}.jpeg`],
+      images: [`/images/shop-kerala-cotton-${item}.avif`],
     };
   }),
     ...keralaCheckedCottonColors.map((color, index) => {
@@ -870,7 +870,7 @@ const shopProducts = [
         length: '6.25 meters',
         color,
         price: pureCottonOfferPrice,
-        images: [`/images/shop-kerala-checked-${item}.jpeg`],
+        images: [`/images/shop-kerala-checked-${item}.avif`],
       };
     }),
   ];
@@ -904,7 +904,7 @@ function ImageSlider({ product }: { product: ShopProduct }) {
   const hasMultipleImages = product.images.length > 1;
 
   return <div className="shop-slider">
-    <img src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} />
+    <img src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} loading="lazy" decoding="async" />
     <div className="shop-slider__veil" />
     {hasMultipleImages && <div className="shop-slider__controls">
       <button onClick={prev} aria-label={`Previous image for ${product.title}`}><ChevronLeft size={17}/></button>
@@ -946,7 +946,7 @@ function ShopPage() {
 
   return <section className="shop-page" id="shop">
     <div className="shop-showcase" data-reveal>
-      <img className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.jpeg" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" />
+      <img className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.avif" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" />
       <div className="shop-showcase__veil" aria-hidden="true" />
       <div className="shop-showcase__copy">
         <p className="shop-eyebrow">PK TEX SHOP</p>
@@ -985,7 +985,7 @@ function ShopPage() {
             key={item.name}
           >
             <span className="shop-collection-card__media">
-              <img src={item.image} alt={`${item.name} collection`} />
+              <img src={item.image} alt={`${item.name} collection`} loading="lazy" decoding="async" />
               <small>{item.count} styles</small>
             </span>
             <span className="shop-collection-card__body">
@@ -1013,7 +1013,7 @@ function ShopPage() {
         </div>
       </header>
       <div className="shop-grid">
-        {visibleProducts.map(product => <article className="shop-product" key={product.id}>
+        {visibleProducts.map((product) => <article className="shop-product" key={product.id}>
           <ImageSlider product={product}/>
           <div className="shop-product__body">
             <p>{product.category}</p>
