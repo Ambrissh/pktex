@@ -22,7 +22,7 @@ function useReveal(route: string) {
   }, [route]);
 }
 
-function Header() {
+function Header({ onLightPage = false }: { onLightPage?: boolean }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -34,7 +34,7 @@ function Header() {
     document.body.classList.toggle('navigation-open', open);
     return () => document.body.classList.remove('navigation-open');
   }, [open]);
-  return <header className={`header ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--menu-open' : ''}`}>
+  return <header className={`header ${onLightPage ? 'header--light-page' : ''} ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--menu-open' : ''}`}>
     <a className="brand" href="#home" aria-label="PK TEX home"><span>PK</span><i/><span>TEX</span></a>
     <nav className={open ? 'nav nav--open' : 'nav'} id="main-navigation" aria-label="Main navigation">
       {navItems.map(([label, href], i) => <a key={href} href={href} style={{ '--i': i } as CSSProperties} onClick={() => setOpen(false)}>{label}</a>)}
@@ -1106,7 +1106,7 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [route]);
 
-  return <><Header/><main>{isShop
+  return <><Header onLightPage={isReviews}/><main>{isShop
     ? <ShopPage/>
     : isReviews
       ? <ReviewsPage/>
