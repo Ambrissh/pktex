@@ -19,10 +19,16 @@ const heroBytes = sizeOf(join(publicDir, 'hero-silk-bright.avif'));
 const textureBytes = sizeOf(join(imagesDir, 'saree-texture-light.avif'));
 const galleryBytes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   .reduce((total, number) => total + sizeOf(join(imagesDir, `saree-${number}.avif`)), 0);
+const chromeGalleryBytes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  .reduce((total, number) => total + sizeOf(join(imagesDir, `saree-${number}-chrome.jpg`)), 0);
+const chromeCategoryImages = readdirSync(imagesDir).filter(name => name.startsWith('shop-') && name.endsWith('-chrome.jpg'));
+const chromeCategoryBytes = chromeCategoryImages.reduce((total, name) => total + sizeOf(join(imagesDir, name)), 0);
 
 if (heroBytes > 300 * 1024) failures.push(`hero image is ${(heroBytes / 1048576).toFixed(2)} MB; budget is 0.30 MB`);
 if (textureBytes > 350 * 1024) failures.push(`about texture is ${(textureBytes / 1048576).toFixed(2)} MB; budget is 0.35 MB`);
 if (galleryBytes > 1800 * 1024) failures.push(`home gallery is ${(galleryBytes / 1048576).toFixed(2)} MB; budget is 1.80 MB`);
+if (chromeGalleryBytes > 2 * 1048576) failures.push(`Chrome home gallery is ${(chromeGalleryBytes / 1048576).toFixed(2)} MB; budget is 2.00 MB`);
+if (chromeCategoryBytes > 3 * 1048576) failures.push(`Chrome category cards are ${(chromeCategoryBytes / 1048576).toFixed(2)} MB; budget is 3.00 MB`);
 
 const shopImages = readdirSync(imagesDir).filter(name => name.startsWith('shop-') && name.endsWith('.avif'));
 if (shopImages.length < 250) failures.push(`only ${shopImages.length} optimized shop images found; expected at least 250`);
@@ -42,4 +48,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Performance budget passed: hero ${(heroBytes / 1024).toFixed(0)} KB, deferred gallery ${(galleryBytes / 1024).toFixed(0)} KB, shop catalogue ${(shopBytes / 1048576).toFixed(1)} MB.`);
+console.log(`Performance budget passed: hero ${(heroBytes / 1024).toFixed(0)} KB, Chrome gallery ${(chromeGalleryBytes / 1024).toFixed(0)} KB, Chrome categories ${(chromeCategoryBytes / 1024).toFixed(0)} KB, shop catalogue ${(shopBytes / 1048576).toFixed(1)} MB.`);

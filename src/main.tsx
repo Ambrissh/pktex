@@ -164,7 +164,7 @@ function Collection() {
     <div className="collection__grid">
       {Array.from({ length: 9 }, (_, i) => {
         const imageNumber = i === 4 ? 3 : i === 2 ? 5 : i + 1;
-        const imageSrc = `/images/saree-${imageNumber}.avif`;
+        const imageSrc = `/images/saree-${imageNumber}-chrome.jpg`;
         return <a className={`collection__tile ${i === 4 ? 'collection__tile--featured' : ''}`} data-index={i} href="#shop" key={i} aria-label={`View saree collection ${i + 1} in the shop`}>
         <img src={imageSrc} alt={`PK TEX saree ${imageNumber}`} loading="eager" decoding="async" width="1280" height="853"/>
         <span className="collection__hover">Shop now <ArrowUpRight size={16}/></span>
@@ -212,85 +212,85 @@ const shopCategories = [
   {
     name: 'Kalyani Cotton Sarees',
     description: 'Kanchipuram-inspired cotton sarees with temple borders, breathable drape, and rich traditional colour pairings.',
-    image: '/images/shop-kalyani-01-a.avif',
+    image: '/images/shop-kalyani-01-a-chrome.jpg',
     count: 21,
   },
   {
     name: 'Korvai Checked Cotton Sarees',
     description: 'Checked cotton sarees with bold korvai contrast borders, gold zari bands, and bright festive colour pairings.',
-    image: '/images/shop-korvai-checked-cotton-01.avif',
+    image: '/images/shop-korvai-checked-cotton-01-chrome.jpg',
     count: 11,
   },
   {
     name: 'Maheshwari Cotton Sarees',
     description: 'Offer-ready Maheshwari cotton sarees with woven texture, small zari buttas, tassel edges, and contrast colour pairings.',
-    image: '/images/shop-maheshwari-cotton-01.avif',
+    image: '/images/shop-maheshwari-cotton-01-chrome.jpg',
     count: 23,
   },
   {
     name: 'Palaku Design Sarees',
     description: 'Single-view folded sarees with ornate palaku-inspired motifs, silver zari highlights, and rich festive colours.',
-    image: '/images/shop-palaku-02.avif',
+    image: '/images/shop-palaku-02-chrome.jpg',
     count: 15,
   },
   {
     name: 'Kadhi Cotton Sarees',
     description: 'Soft khadi cotton drapes with floral handwork, daisy and embroidered flower motifs, fringe detailing, and fresh everyday boutique colours.',
-    image: '/images/shop-kadhi-01.avif',
+    image: '/images/shop-kadhi-01-chrome.jpg',
     count: 27,
   },
   {
     name: '120 Count Mul Mul Cotton Sarees',
     description: 'Weightless 120-count mul mul cotton sarees with airy stripes, soft tassels, and borderless everyday elegance.',
-    image: '/images/shop-mulmul-01.avif',
+    image: '/images/shop-mulmul-01-chrome.jpg',
     count: 25,
   },
   {
     name: 'Rainbow Mul Mul Cotton Sarees',
     description: 'Soft rainbow-check mul mul cotton sarees with playful tassels, contrast blouse pieces, and airy summer colourways.',
-    image: '/images/shop-rainbow-mulmul-01.avif',
+    image: '/images/shop-rainbow-mulmul-01-chrome.jpg',
     count: 5,
   },
   {
     name: 'Soft Silk Sarees',
     description: 'Premium soft silk sarees with luminous zari motifs, rich contrast pallus, and festive boutique colour pairings.',
-    image: '/images/shop-softsilk-01.avif',
+    image: '/images/shop-softsilk-01-chrome.jpg',
     count: 21,
   },
   {
     name: 'Arani Soft Silk Sarees',
     description: 'Arani soft silk sarees with neat pleated presentation, fine zari line work, contrast pallus, and smooth festive colours.',
-    image: '/images/shop-arani-soft-silk-01.avif',
+    image: '/images/shop-arani-soft-silk-01-chrome.jpg',
     count: 6,
   },
   {
     name: 'Fancy Silk Sarees',
     description: 'Shopping-ready fancy silk sarees with geometric embroidery, peacock-inspired motifs, glossy borders, and rich boutique colours.',
-    image: '/images/shop-fancy-silk-01.avif',
+    image: '/images/shop-fancy-silk-01-chrome.jpg',
     count: 36,
   },
   {
     name: 'Tissue Printed Soft Cotton Sarees',
     description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
-    image: '/images/shop-tissue-printed-soft-cotton-01.avif',
+    image: '/images/shop-tissue-printed-soft-cotton-01-chrome.jpg',
     count: 6,
   },
   {
     name: 'Sunflower Khadi Cotton Sarees',
     description: 'Fresh khadi cotton sarees with cheerful sunflower motifs, soft tassels, and artisanal studio styling.',
-    image: '/images/shop-sunflower-khadi-01.avif',
+    image: '/images/shop-sunflower-khadi-01-chrome.jpg',
     count: 12,
   },
     {
       name: 'Kerala Cotton Sarees',
       description: 'Onam-ready Kerala cotton sarees in warm ivory tones with temple-inspired borders, festive motifs, and celebration styling.',
-      image: '/images/shop-kerala-cotton-01.avif',
+      image: '/images/shop-kerala-cotton-01-chrome.jpg',
       count: 11,
     },
     {
       name: 'Kerala Checked Cotton Sarees',
       description: 'Checked Kerala cotton sarees in festive ivory and kasavu tones with printed floral borders, Onam styling, and blouse-inclusive 6.25m drapes.',
-      image: '/images/shop-kerala-checked-01.avif',
+      image: '/images/shop-kerala-checked-01-chrome.jpg',
       count: 10,
     },
   ];
