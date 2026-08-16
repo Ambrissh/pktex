@@ -1,30 +1,17 @@
-import React, { CSSProperties, ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, Globe2, Headphones, MapPin, Menu, MessageCircle, RotateCcw, ShieldCheck, Truck, X } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ExpandingSareeAboutSection from './ExpandingSareeAboutSection';
 import './styles.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const navItems = [['Home', '#home'], ['Shop', '#shop'], ['Reviews', '#reviews']];
 const customerPhone = '9994536855';
 const customerPhoneDisplay = '+91 99945 36855';
 const whatsAppOrderLink = `https://wa.me/91${customerPhone}?text=Hi%20PK%20TEX%2C%20I%20want%20to%20place%20an%20order.`;
-const imageFallback = '/images/saree-3.jpg';
-
-function ResilientImage({ src, alt = '', onError, ...props }: ImgHTMLAttributes<HTMLImageElement> & { src: string }) {
-  const [usingFallback, setUsingFallback] = useState(false);
-
-  useEffect(() => setUsingFallback(false), [src]);
-
-  return <img
-    {...props}
-    src={usingFallback ? imageFallback : src}
-    alt={alt}
-    onError={event => {
-      onError?.(event);
-      if (!usingFallback) setUsingFallback(true);
-    }}
-  />;
-}
 
 function useReveal(route: string) {
   useEffect(() => {
@@ -43,17 +30,13 @@ function Header() {
     onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  useEffect(() => {
-    document.body.classList.toggle('navigation-open', open);
-    return () => document.body.classList.remove('navigation-open');
-  }, [open]);
   return <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
     <a className="brand" href="#home" aria-label="PK TEX home"><span>PK</span><i/><span>TEX</span></a>
-    <nav id="primary-navigation" className={open ? 'nav nav--open' : 'nav'} aria-label="Main navigation">
+    <nav className={open ? 'nav nav--open' : 'nav'} aria-label="Main navigation">
       {navItems.map(([label, href], i) => <a key={href} href={href} style={{ '--i': i } as CSSProperties} onClick={() => setOpen(false)}>{label}</a>)}
       <a className="nav__visit" href="#contact" onClick={() => setOpen(false)}>Contact Us <ArrowUpRight size={15}/></a>
     </nav>
-    <button className="menu" onClick={() => setOpen(v => !v)} aria-label="Toggle navigation" aria-expanded={open} aria-controls="primary-navigation">{open ? <X/> : <Menu/>}</button>
+    <button className="menu" onClick={() => setOpen(v => !v)} aria-label="Toggle navigation">{open ? <X/> : <Menu/>}</button>
   </header>;
 }
 
@@ -77,8 +60,101 @@ function Hero() {
   </section>;
 }
 
+const facts = [
+  ['30', '+', 'Years of Experience'], ['400', '+', 'Production Looms'], ['10', 'K+', 'Happy Customers'],
+  ['3', 'rd', 'Generation Family Business'], ['5', '+', 'Countries Served Worldwide'], ['Worldwide', '', 'Shipping Available']
+];
+
+function Heritage() {
+  const section = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const el = section.current; if (!el) return;
+    const ctx = gsap.context(() => {
+      const lines = gsap.utils.toArray<HTMLElement>('.heritage__line');
+      gsap.set(lines, { yPercent: 120 });
+      gsap.set('.heritage__final', { autoAlpha: 0, y: 48 });
+      gsap.set('.heritage__kicker', { autoAlpha: 0 });
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: el, start: 'top top', end: '+=260%', pin: true, scrub: 1, anticipatePin: 1 }
+      });
+      tl.to(lines, { yPercent: 0, duration: 1.15, stagger: .14, ease: 'power3.out' })
+        .to('.heritage__silk', { scale: 1.035, xPercent: 1.2, duration: 2, ease: 'none' }, 0)
+        .to('.heritage__statement', { scale: .28, yPercent: -155, transformOrigin: 'center top', duration: 1.4, ease: 'power2.inOut' }, 1.45)
+        .to('.heritage__statement', { autoAlpha: 0, duration: .35 }, 2.45)
+        .to('.heritage__kicker', { autoAlpha: 1, duration: .4 }, 2.45)
+        .to('.heritage__final', { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' }, 2.55);
+      document.querySelectorAll<HTMLElement>('.fact__number[data-count]').forEach(node => {
+        const target = Number(node.dataset.count); const state = { value: 0 };
+        gsap.to(state, { value: target, duration: 1.5, ease: 'power2.out', scrollTrigger: { trigger: node, start: 'top 85%', once: true }, onUpdate: () => { node.textContent = Math.round(state.value).toString(); } });
+      });
+    }, el);
+    return () => ctx.revert();
+  }, []);
+  return <section className="heritage" id="shop" ref={section}>
+    <div className="heritage__silk" aria-hidden="true"><i/><i/><i/></div>
+    <div className="heritage__statement" aria-label="PK TEX sarees">
+      <div className="heritage__mask"><span className="heritage__line">PK TEX</span></div>
+      <div className="heritage__mask"><span className="heritage__line heritage__line--accent">Sarees</span></div>
+    </div>
+    <p className="heritage__kicker">ABOUT PK TEX <span>02</span></p>
+    <div className="heritage__final">
+      <div className="heritage__story">
+        <h2>PK TEX<br/><em>Elampillai.</em></h2>
+        <div className="heritage__copy">
+          <p>PK TEX makes sarees in Elampillai, Salem.</p>
+          <p>We have more than 30 years of experience and over 400 looms.</p>
+          <p>Our sarees are available across India and worldwide.</p>
+        </div>
+        <a className="heritage__button" href="#contact">Contact Us <ArrowUpRight size={17}/></a>
+      </div>
+      <div className="heritage__facts" id="reviews">
+        {facts.map(([value, suffix, label]) => <article className="fact" key={label}>
+          <div>{value === 'Worldwide' ? <strong className="fact__word">Worldwide</strong> : <><strong className="fact__number" data-count={value}>0</strong><sup>{suffix}</sup></>}</div>
+          <p>{label}</p>
+        </article>)}
+      </div>
+    </div>
+  </section>;
+}
+
+const collectionDirections = [
+  [-72, -72], [0, -86], [72, -72],
+  [-86, 0], [0, 0], [86, 0],
+  [-72, 72], [0, 86], [72, 72]
+];
+
 function Collection() {
-  return <section className="collection" id="collection" data-reveal>
+  const section = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const el = section.current; if (!el) return;
+    const ctx = gsap.context(() => {
+      const tiles = gsap.utils.toArray<HTMLElement>('.collection__tile');
+      const center = tiles[4];
+      const others = tiles.filter((_, i) => i !== 4);
+      const rect = center.getBoundingClientRect();
+      const sectionRect = el.getBoundingClientRect();
+      const scale = Math.max(window.innerWidth / Math.max(rect.width, 1), window.innerHeight / Math.max(rect.height, 1)) * 1.02;
+      const centerInSectionX = rect.left - sectionRect.left + rect.width / 2;
+      const centerInSectionY = rect.top - sectionRect.top + rect.height / 2;
+      const heroX = el.clientWidth / 2 - centerInSectionX;
+      const heroY = el.clientHeight / 2 - centerInSectionY;
+      gsap.set(center, { scale, x: heroX, y: heroY, zIndex: 4, borderRadius: 0 });
+      others.forEach(tile => {
+        const i = Number(tile.dataset.index);
+        const [x, y] = collectionDirections[i];
+        gsap.set(tile, { autoAlpha: 0, xPercent: x, yPercent: y, scale: .9 });
+      });
+      gsap.set('.collection__heading', { autoAlpha: 0, y: 25 });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=230%', pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true } });
+      tl.to('.collection__campaign-label', { autoAlpha: 0, y: -18, duration: .35, ease: 'power2.out' }, .18)
+        .to(center, { scale: 1, x: 0, y: 0, borderRadius: 20, duration: 1.45, ease: 'power2.inOut' }, .3)
+        .to('.collection__heading', { autoAlpha: 1, y: 0, duration: .6, ease: 'power3.out' }, 1.08)
+        .to(others, { autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1, duration: .85, stagger: .055, ease: 'power3.out' }, 1.1)
+        .to('.collection__tile img', { yPercent: -2, duration: .9, ease: 'none' }, 1.5);
+    }, el);
+    return () => ctx.revert();
+  }, []);
+  return <section className="collection" id="collection" ref={section}>
     <div className="collection__campaign-label"><span>PK TEX</span><p>Sarees</p></div>
     <header className="collection__heading">
       <div><p>SAREES</p><span>03</span></div>
@@ -89,8 +165,8 @@ function Collection() {
       {Array.from({ length: 9 }, (_, i) => {
         const imageNumber = i === 4 ? 3 : i === 2 ? 5 : i + 1;
         const imageSrc = `/images/saree-${imageNumber}.avif`;
-        return <a className={`collection__tile ${i === 4 ? 'collection__tile--featured' : ''}`} href="#shop" key={i} aria-label={`View saree collection ${i + 1} in the shop`}>
-        <ResilientImage src={imageSrc} alt={`PK TEX saree ${imageNumber}`} loading="eager" decoding="async" width="1280" height="853" sizes="(max-width: 760px) 50vw, 33vw"/>
+        return <a className={`collection__tile ${i === 4 ? 'collection__tile--featured' : ''}`} data-index={i} href="#shop" key={i} aria-label={`View saree collection ${i + 1} in the shop`}>
+        <img src={imageSrc} alt={`PK TEX saree ${imageNumber}`} loading="eager" decoding="async" width="1280" height="853"/>
         <span className="collection__hover">Shop now <ArrowUpRight size={16}/></span>
       </a>})}
     </div>
@@ -135,7 +211,7 @@ const shopCategories = [
   },
   {
     name: 'Kalyani Cotton Sarees',
-    description: 'Kanchipuram-inspired cotton sarees with temple borders, breathable cotton feel, and rich traditional colour pairings.',
+    description: 'Kanchipuram-inspired cotton sarees with temple borders, breathable drape, and rich traditional colour pairings.',
     image: '/images/shop-kalyani-01-a.avif',
     count: 21,
   },
@@ -159,7 +235,7 @@ const shopCategories = [
   },
   {
     name: 'Kadhi Cotton Sarees',
-    description: 'Soft khadi cotton sarees with floral handwork, daisy and embroidered flower motifs, fringe detailing, and fresh everyday boutique colours.',
+    description: 'Soft khadi cotton drapes with floral handwork, daisy and embroidered flower motifs, fringe detailing, and fresh everyday boutique colours.',
     image: '/images/shop-kadhi-01.avif',
     count: 27,
   },
@@ -213,7 +289,7 @@ const shopCategories = [
     },
     {
       name: 'Kerala Checked Cotton Sarees',
-      description: 'Checked Kerala cotton sarees in festive ivory and kasavu tones with printed floral borders, Onam styling, and blouse-inclusive 6.25m sets.',
+      description: 'Checked Kerala cotton sarees in festive ivory and kasavu tones with printed floral borders, Onam styling, and blouse-inclusive 6.25m drapes.',
       image: '/images/shop-kerala-checked-01.avif',
       count: 10,
     },
@@ -828,7 +904,7 @@ function ImageSlider({ product }: { product: ShopProduct }) {
   const hasMultipleImages = product.images.length > 1;
 
   return <div className="shop-slider">
-    <ResilientImage src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} loading="eager" decoding="async" sizes="(max-width: 700px) 100vw, 33vw" />
+    <img src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} loading="lazy" decoding="async" />
     <div className="shop-slider__veil" />
     {hasMultipleImages && <div className="shop-slider__controls">
       <button onClick={prev} aria-label={`Previous image for ${product.title}`}><ChevronLeft size={17}/></button>
@@ -870,7 +946,7 @@ function ShopPage() {
 
   return <section className="shop-page" id="shop">
     <div className="shop-showcase" data-reveal>
-      <ResilientImage className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.avif" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" sizes="100vw" />
+      <img className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.avif" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" />
       <div className="shop-showcase__veil" aria-hidden="true" />
       <div className="shop-showcase__copy">
         <p className="shop-eyebrow">PK TEX SHOP</p>
@@ -909,7 +985,7 @@ function ShopPage() {
             key={item.name}
           >
             <span className="shop-collection-card__media">
-              <ResilientImage src={item.image} alt={`${item.name} collection`} loading="eager" decoding="async" sizes="(max-width: 700px) 116px, (max-width: 1120px) 50vw, 33vw" />
+              <img src={item.image} alt={`${item.name} collection`} loading="eager" decoding="async" />
               <small>{item.count} styles</small>
             </span>
             <span className="shop-collection-card__body">
