@@ -11,12 +11,25 @@ const stats = [
   { target: 5, suffix: '+', label: 'Countries Served' },
 ];
 
-function StatItem({ target, suffix, label, progress, index }: { target: number; suffix: string; label: string; progress: MotionValue<number>; index: number }) {
-  const start = .82 + index * .022;
+function useMobileLayout() {
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches);
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 760px)');
+    const update = () => setIsMobile(query.matches);
+    update(); query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+
+  return isMobile;
+}
+
+function StatItem({ target, suffix, label, progress, index, isMobile }: { target: number; suffix: string; label: string; progress: MotionValue<number>; index: number; isMobile: boolean }) {
+  const start = isMobile ? .54 + index * .045 : .82 + index * .022;
   const end = Math.min(start + .06, .985);
   const opacity = useTransform(progress, [start, end, 1], [0, 1, 1]);
-  const y = useTransform(progress, [start, end, 1], [34, 0, 0]);
-  const x = useTransform(progress, [start, end, 1], [index % 2 === 0 ? -38 : 38, 0, 0]);
+  const y = useTransform(progress, [start, end, 1], [isMobile ? 18 : 34, 0, 0]);
+  const x = useTransform(progress, [start, end, 1], [isMobile ? 0 : index % 2 === 0 ? -38 : 38, 0, 0]);
   const [displayValue, setDisplayValue] = useState(0);
   const hasStarted = useRef(false);
   const frame = useRef<number | null>(null);
@@ -25,7 +38,7 @@ function StatItem({ target, suffix, label, progress, index }: { target: number; 
     if (latest < start || hasStarted.current) return;
     hasStarted.current = true;
     const startedAt = performance.now();
-    const duration = 1300;
+    const duration = isMobile ? 800 : 1300;
     const tick = (now: number) => {
       const elapsed = Math.min((now - startedAt) / duration, 1);
       const eased = 1 - Math.pow(1 - elapsed, 3);
@@ -48,6 +61,7 @@ function StatItem({ target, suffix, label, progress, index }: { target: number; 
 export default function ExpandingSareeAboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] });
+  const isMobile = useMobileLayout();
 
   const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1280;
   const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 720;
@@ -68,24 +82,35 @@ export default function ExpandingSareeAboutSection() {
   const buttonX = useTransform(scrollYProgress, [.86, .94, 1], [38, 0, 0]);
   const statsFrameOpacity = useTransform(scrollYProgress, [.81, .86, 1], [0, 1, 1]);
   const bridgeOpacity = useTransform(scrollYProgress, [.88, 1], [0, .46]);
+  const mobileSwatchOpacity = useTransform(scrollYProgress, [.02, .14, 1], [0, 1, 1]);
+  const mobilePanelOpacity = useTransform(scrollYProgress, [.2, .32, 1], [0, 1, 1]);
+  const mobilePanelY = useTransform(scrollYProgress, [.2, .32, 1], [20, 0, 0]);
+  const mobileLabelOpacity = useTransform(scrollYProgress, [.22, .3, 1], [0, 1, 1]);
+  const mobileHeadingOpacity = useTransform(scrollYProgress, [.27, .38, 1], [0, 1, 1]);
+  const mobileHeadingY = useTransform(scrollYProgress, [.27, .38, 1], [24, 0, 0]);
+  const mobileCopyOpacity = useTransform(scrollYProgress, [.34, .45, 1], [0, 1, 1]);
+  const mobileCopyY = useTransform(scrollYProgress, [.34, .45, 1], [18, 0, 0]);
+  const mobileButtonOpacity = useTransform(scrollYProgress, [.4, .5, 1], [0, 1, 1]);
+  const mobileButtonY = useTransform(scrollYProgress, [.4, .5, 1], [16, 0, 0]);
+  const mobileStatsOpacity = useTransform(scrollYProgress, [.49, .56, 1], [0, 1, 1]);
 
   return <section className="expanding-about" id="about" ref={sectionRef}>
     <div className="expanding-about__sticky">
-      <motion.div className="expanding-about__swatch" style={{ width: swatchWidth, height: swatchHeight }} aria-hidden="true" />
+      <motion.div className="expanding-about__swatch" style={isMobile ? { opacity: mobileSwatchOpacity } : { width: swatchWidth, height: swatchHeight }} aria-hidden="true" />
       <motion.div className="expanding-about__bridge" style={{ opacity: bridgeOpacity }} aria-hidden="true" />
-      <motion.div className="expanding-about__layout" style={{ opacity: panelOpacity, y: panelY, scale: panelScale }}>
+      <motion.div className="expanding-about__layout" style={isMobile ? { opacity: mobilePanelOpacity, y: mobilePanelY } : { opacity: panelOpacity, y: panelY, scale: panelScale }}>
         <div className="expanding-about__story">
-          <motion.p className="expanding-about__label" style={{ opacity: labelOpacity }}>ABOUT US <span>02</span></motion.p>
-          <motion.h2 style={{ opacity: headingOpacity, x: headingX, y: headingY }}>PK TEX</motion.h2>
-          <motion.div className="expanding-about__copy" style={{ opacity: copyOpacity, x: copyX, y: copyY }}>
+          <motion.p className="expanding-about__label" style={{ opacity: isMobile ? mobileLabelOpacity : labelOpacity }}>ABOUT US <span>02</span></motion.p>
+          <motion.h2 style={isMobile ? { opacity: mobileHeadingOpacity, y: mobileHeadingY } : { opacity: headingOpacity, x: headingX, y: headingY }}>PK TEX</motion.h2>
+          <motion.div className="expanding-about__copy" style={isMobile ? { opacity: mobileCopyOpacity, y: mobileCopyY } : { opacity: copyOpacity, x: copyX, y: copyY }}>
             <p>PK TEX is a saree manufacturer in Elampillai, Salem. We have more than 30 years of experience and over 400 looms.</p>
             <p>We make cotton and silk sarees for customers in India and abroad.</p>
             <p className="expanding-about__shipping">Shipping available across India and worldwide.</p>
           </motion.div>
-          <motion.a className="expanding-about__button" href="#contact" style={{ opacity: buttonOpacity, x: buttonX, y: buttonY }}>Contact Us <ArrowUpRight size={17}/></motion.a>
+          <motion.a className="expanding-about__button" href="#contact" style={isMobile ? { opacity: mobileButtonOpacity, y: mobileButtonY } : { opacity: buttonOpacity, x: buttonX, y: buttonY }}>Contact Us <ArrowUpRight size={17}/></motion.a>
         </div>
-        <motion.div className="expanding-about__stats" style={{ opacity: statsFrameOpacity }}>
-          {stats.map((item, index) => <StatItem key={item.label} {...item} index={index} progress={scrollYProgress}/>) }
+        <motion.div className="expanding-about__stats" style={{ opacity: isMobile ? mobileStatsOpacity : statsFrameOpacity }}>
+          {stats.map((item, index) => <StatItem key={item.label} {...item} index={index} progress={scrollYProgress} isMobile={isMobile}/>) }
         </motion.div>
       </motion.div>
     </div>

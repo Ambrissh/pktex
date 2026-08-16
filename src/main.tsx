@@ -30,13 +30,17 @@ function Header() {
     onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  return <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
+  useEffect(() => {
+    document.body.classList.toggle('navigation-open', open);
+    return () => document.body.classList.remove('navigation-open');
+  }, [open]);
+  return <header className={`header ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--menu-open' : ''}`}>
     <a className="brand" href="#home" aria-label="PK TEX home"><span>PK</span><i/><span>TEX</span></a>
-    <nav className={open ? 'nav nav--open' : 'nav'} aria-label="Main navigation">
+    <nav className={open ? 'nav nav--open' : 'nav'} id="main-navigation" aria-label="Main navigation">
       {navItems.map(([label, href], i) => <a key={href} href={href} style={{ '--i': i } as CSSProperties} onClick={() => setOpen(false)}>{label}</a>)}
-      <a className="nav__visit" href="#contact" onClick={() => setOpen(false)}>Contact Us <ArrowUpRight size={15}/></a>
+      <a className="nav__visit" href="#contact" style={{ '--i': navItems.length } as CSSProperties} onClick={() => setOpen(false)}>Contact Us <ArrowUpRight size={15}/></a>
     </nav>
-    <button className="menu" onClick={() => setOpen(v => !v)} aria-label="Toggle navigation">{open ? <X/> : <Menu/>}</button>
+    <button className="menu" onClick={() => setOpen(v => !v)} aria-controls="main-navigation" aria-expanded={open} aria-label="Toggle navigation">{open ? <X/> : <Menu/>}</button>
   </header>;
 }
 
@@ -133,6 +137,7 @@ function Collection() {
       const others = tiles.filter((_, i) => i !== 4);
       const rect = center.getBoundingClientRect();
       const sectionRect = el.getBoundingClientRect();
+      const isMobile = window.matchMedia('(max-width: 760px)').matches;
       const scale = Math.max(window.innerWidth / Math.max(rect.width, 1), window.innerHeight / Math.max(rect.height, 1)) * 1.02;
       const centerInSectionX = rect.left - sectionRect.left + rect.width / 2;
       const centerInSectionY = rect.top - sectionRect.top + rect.height / 2;
@@ -145,11 +150,11 @@ function Collection() {
         gsap.set(tile, { autoAlpha: 0, xPercent: x, yPercent: y, scale: .9 });
       });
       gsap.set('.collection__heading', { autoAlpha: 0, y: 25 });
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=230%', pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: isMobile ? '+=175%' : '+=230%', pin: true, scrub: isMobile ? .7 : 1, anticipatePin: 1, invalidateOnRefresh: true } });
       tl.to('.collection__campaign-label', { autoAlpha: 0, y: -18, duration: .35, ease: 'power2.out' }, .18)
-        .to(center, { scale: 1, x: 0, y: 0, borderRadius: 20, duration: 1.45, ease: 'power2.inOut' }, .3)
+        .to(center, { scale: 1, x: 0, y: 0, borderRadius: 20, duration: isMobile ? 1.1 : 1.45, ease: 'power2.inOut', force3D: true }, .3)
         .to('.collection__heading', { autoAlpha: 1, y: 0, duration: .6, ease: 'power3.out' }, 1.08)
-        .to(others, { autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1, duration: .85, stagger: .055, ease: 'power3.out' }, 1.1)
+        .to(others, { autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1, duration: isMobile ? .62 : .85, stagger: isMobile ? .035 : .055, ease: 'power3.out', force3D: true }, 1.1)
         .to('.collection__tile img', { yPercent: -2, duration: .9, ease: 'none' }, 1.5);
     }, el);
     return () => ctx.revert();
@@ -945,7 +950,7 @@ function ShopPage() {
   };
 
   return <section className="shop-page" id="shop">
-    <div className="shop-showcase" data-reveal>
+    <div className="shop-showcase">
       <img className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.avif" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" />
       <div className="shop-showcase__veil" aria-hidden="true" />
       <div className="shop-showcase__copy">
@@ -966,7 +971,7 @@ function ShopPage() {
       </div>
     </div>
 
-    <section className="shop-collection-index" id="shop-collections" data-reveal>
+    <section className="shop-collection-index" id="shop-collections">
       <header className="shop-collection-index__head">
         <div>
           <p className="shop-eyebrow">CATEGORIES</p>
