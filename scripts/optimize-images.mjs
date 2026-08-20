@@ -9,7 +9,10 @@ const imagesDir = join(publicDir, 'images');
 const force = process.argv.includes('--force');
 
 const imageJobs = [
+  { source: join(imagesDir, 'hero-cultural.png'), output: join(imagesDir, 'hero-cultural.avif'), maxSize: 1600, quality: 62 },
+  { source: join(imagesDir, 'hero-cultural.png'), output: join(imagesDir, 'hero-cultural.jpg'), maxSize: 1800, quality: 70, format: 'jpeg' },
   { source: join(publicDir, 'hero-silk-bright.png'), output: join(publicDir, 'hero-silk-bright.avif'), maxSize: 1600, quality: 70 },
+  { source: join(publicDir, 'hero-silk-bright.png'), output: join(publicDir, 'hero-silk-bright.jpg'), maxSize: 1800, quality: 72, format: 'jpeg' },
   { source: join(imagesDir, 'saree-texture-light-4k.png'), output: join(imagesDir, 'saree-texture-light.avif'), maxSize: 1600, quality: 64 },
   { source: join(imagesDir, 'saree-3-4k.png'), output: join(imagesDir, 'saree-3.avif'), maxSize: 1600, quality: 68 },
   ...[1, 2, 4, 5, 6, 7, 8, 9].map(number => ({
@@ -26,13 +29,15 @@ const imageJobs = [
       maxSize: 1200,
       quality: 45,
     })),
-  ...['shop-swami-gold-devotional', 'shop-amman-pink-devotional'].map(name => ({
-    source: join(imagesDir, `${name}.jpeg`),
-    output: join(imagesDir, `${name}.jpg`),
-    maxSize: 1200,
-    quality: 62,
-    format: 'jpeg',
-  })),
+  ...readdirSync(imagesDir)
+    .filter(name => name.startsWith('shop-') && !name.includes(' 2.') && extname(name).toLowerCase() === '.jpeg')
+    .map(name => ({
+      source: join(imagesDir, name),
+      output: join(imagesDir, `${name.slice(0, -5)}.jpg`),
+      maxSize: 1100,
+      quality: 58,
+      format: 'jpeg',
+    })),
 ];
 
 let converted = 0;

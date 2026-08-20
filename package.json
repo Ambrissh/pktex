@@ -8,6 +8,8 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "optimize:images": "node scripts/optimize-images.mjs",
+    "check:hero": "node scripts/check-hero-compatibility.mjs",
+    "check:shop-images": "node scripts/check-shop-image-compatibility.mjs",
     "check:performance": "node scripts/check-performance-budget.mjs"
   },
   "dependencies": {

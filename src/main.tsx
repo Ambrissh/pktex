@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, Globe2, Headphones, MapPin, Menu, MessageCircle, RotateCcw, ShieldCheck, Truck, X } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, Globe2, Headphones, MapPin, Menu, MessageCircle, RotateCcw, ShieldCheck, SlidersHorizontal, Truck, X } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ExpandingSareeAboutSection from './ExpandingSareeAboutSection';
@@ -45,20 +45,45 @@ function Header({ onLightPage = false }: { onLightPage?: boolean }) {
 }
 
 function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
+  const [liteMotion, setLiteMotion] = useState(true);
+
   useEffect(() => {
-    const onScroll = () => heroRef.current?.style.setProperty('--scroll', `${Math.min(window.scrollY, window.innerHeight)}px`);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const clientNavigator = navigator as Navigator & {
+      deviceMemory?: number;
+      connection?: { saveData?: boolean };
+    };
+    const updateMotionMode = () => {
+      const limitedCpu = clientNavigator.hardwareConcurrency > 0 && clientNavigator.hardwareConcurrency <= 4;
+      const limitedMemory = typeof clientNavigator.deviceMemory === 'number' && clientNavigator.deviceMemory <= 4;
+      setLiteMotion(motionPreference.matches || limitedCpu || limitedMemory || Boolean(clientNavigator.connection?.saveData));
+    };
+
+    updateMotionMode();
+    if (motionPreference.addEventListener) motionPreference.addEventListener('change', updateMotionMode);
+    else motionPreference.addListener(updateMotionMode);
+    return () => {
+      if (motionPreference.removeEventListener) motionPreference.removeEventListener('change', updateMotionMode);
+      else motionPreference.removeListener(updateMotionMode);
+    };
   }, []);
-  return <section className="hero" id="home" ref={heroRef}>
-    <div className="hero__image" aria-hidden="true"/><div className="hero__grain" aria-hidden="true"/>
+
+  return <section className={`hero ${liteMotion ? 'hero--lite-motion' : ''}`} id="home">
+    <picture className="hero__portrait">
+      <source srcSet="/images/hero-cultural.avif" type="image/avif" />
+      <img src="/images/hero-cultural.jpg" alt="A crimson handloom silk saree, brass lamp, jasmine and weaving shuttles beside a traditional wooden loom in Elampillai" width="1672" height="941" loading="eager" fetchPriority="high" decoding="async" />
+    </picture>
+    <div className="hero__veil" aria-hidden="true" />
+    <div className="hero__silk-motion" aria-hidden="true"><span/><span/></div>
+    <div className="hero__zari-border" aria-hidden="true" />
     <div className="hero__content">
+      <p className="hero__kicker intro intro--1">Handloom heritage <i/> Elampillai</p>
       <h1 className="wordmark" aria-label="PK TEX"><span className="intro intro--2">PK</span><em className="intro intro--3">TEX</em></h1>
       <div className="hero__origin intro intro--4">
         <p className="hero__place">Elampillai</p>
         <p className="hero__since">Since 1998</p>
       </div>
+      <p className="hero__story intro intro--5">Woven by tradition.<br/>Made for today.</p>
       <a className="hero__cta intro intro--5" href="#shop">Shop Sarees <ArrowUpRight size={18}/></a>
     </div>
   </section>;
@@ -212,7 +237,7 @@ const shopCategories = [
     name: 'Swami & Amman Temple Sarees',
     description: 'Six-meter devotional sarees in Swami and Amman designs.',
     image: '/images/shop-swami-gold-devotional.jpg',
-    count: 3,
+    count: 5,
   },
   {
     name: 'Kalyani Cotton Sarees',
@@ -278,7 +303,7 @@ const shopCategories = [
     name: 'Tissue Printed Soft Cotton Sarees',
     description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
     image: '/images/shop-tissue-printed-soft-cotton-01-chrome.jpg',
-    count: 6,
+    count: 18,
   },
   {
     name: 'Sunflower Khadi Cotton Sarees',
@@ -524,12 +549,24 @@ const fancySilkPrintedColors = [
 ];
 
 const tissuePrintedSoftCottonColors = [
-  'Lilac & Deep Plum',
-  'Mint Green & Forest Green',
-  'Powder Blue & Deep Teal',
-  'Silver Grey & Navy Blue',
-  'Black & Mustard Gold',
-  'Mustard Gold & Olive Green',
+  'Peacock Medallion Print',
+  'Leaf Ganesha Print',
+  'Radha Krishna Peacock Print',
+  'Yellow Floral Print',
+  'Flute Peacock Print',
+  'Paisley Peacock Print',
+  'Floral Peacock Print',
+  'Purple Flower Print',
+  'Mridangam Peacock Print',
+  'Green Temple Motif Drape',
+  'Round Peacock Temple Drape',
+  'Paisley Temple Drape',
+  'Flute Peacock Temple Drape',
+  'Purple Floral Temple Drape',
+  'Peacock Paisley Temple Drape',
+  'Orange Floral Temple Drape',
+  'Peacock Floral Temple Drape',
+  'Yellow Floral Temple Drape',
 ];
 
 const sunflowerKhadiColors = [
@@ -678,7 +715,7 @@ const shopProducts = [
     length: '6 meters',
     color: 'Turmeric Gold',
     price: devotionalOfferPrice,
-    images: ['/images/shop-swami-gold-devotional.jpg', '/images/shop-swami-gold-folded.avif'],
+    images: ['/images/shop-swami-gold-devotional.jpg', '/images/shop-swami-gold-folded.jpg'],
   },
   {
     id: 'amman-pink',
@@ -687,7 +724,16 @@ const shopProducts = [
     length: '6 meters',
     color: 'Kumkum Pink',
     price: devotionalOfferPrice,
-    images: ['/images/shop-amman-pink-devotional.jpg', '/images/shop-amman-pink-folded.avif'],
+    images: ['/images/shop-amman-pink-devotional.jpg', '/images/shop-amman-pink-folded.jpg'],
+  },
+  {
+    id: 'amman-red',
+    title: 'Amman Temple Saree',
+    category: 'Swami & Amman Temple Sarees',
+    length: '6 meters',
+    color: 'Kumkum Red',
+    price: devotionalOfferPrice,
+    images: ['/images/shop-amman-red-devotional.jpg', '/images/shop-amman-red-folded.jpg'],
   },
   {
     id: 'amman-green',
@@ -696,7 +742,16 @@ const shopProducts = [
     length: '6 meters',
     color: 'Parrot Green',
     price: devotionalOfferPrice,
-    images: ['/images/shop-amman-green-devotional.avif', '/images/shop-amman-green-folded.avif'],
+    images: ['/images/shop-amman-green-devotional.jpg', '/images/shop-amman-green-folded.jpg'],
+  },
+  {
+    id: 'amman-light-green',
+    title: 'Amman Temple Saree',
+    category: 'Swami & Amman Temple Sarees',
+    length: '6 meters',
+    color: 'Lime Green & Temple Gold',
+    price: devotionalOfferPrice,
+    images: ['/images/shop-amman-light-green-devotional.jpg', '/images/shop-amman-light-green-folded.jpg'],
   },
   ...kalyaniColors.map((color, index) => {
     const item = String(index + 1).padStart(2, '0');
@@ -704,10 +759,10 @@ const shopProducts = [
       id: `kalyani-${item}`,
       title: 'Kalyani Cotton Saree',
       category: 'Kalyani Cotton Sarees',
-      length: '6 meters',
+      length: '6.3 meters',
       color,
       price: kalyaniOfferPrice,
-      images: [`/images/shop-kalyani-${item}-a.avif`, `/images/shop-kalyani-${item}-b.avif`],
+      images: [`/images/shop-kalyani-${item}-a.jpg`, `/images/shop-kalyani-${item}-b.jpg`],
     };
   }),
   ...korvaiCheckedCottonColors.map((color, index) => {
@@ -719,7 +774,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: korvaiCheckedCottonOfferPrice,
-      images: [`/images/shop-korvai-checked-cotton-${item}.avif`],
+      images: [`/images/shop-korvai-checked-cotton-${item}.jpg`],
     };
   }),
   ...maheshwariCottonColors.map((color, index) => {
@@ -731,7 +786,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: maheshwariOfferPrice,
-      images: [`/images/shop-maheshwari-cotton-${item}.avif`],
+      images: [`/images/shop-maheshwari-cotton-${item}.jpg`],
     };
   }),
   ...palakuColors.map((color, index) => {
@@ -743,7 +798,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: palakuOfferPrice,
-      images: [`/images/shop-palaku-${item}.avif`],
+      images: [`/images/shop-palaku-${item}.jpg`],
     };
   }),
   ...kadhiColors.map((color, index) => {
@@ -755,7 +810,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: kadhiOfferPrice,
-      images: [`/images/shop-kadhi-${item}.avif`],
+      images: [`/images/shop-kadhi-${item}.jpg`],
     };
   }),
   ...mulmulColors.map((color, index) => {
@@ -767,7 +822,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: mulmulOfferPrice,
-      images: [`/images/shop-mulmul-${item}.avif`],
+      images: [`/images/shop-mulmul-${item}.jpg`],
     };
   }),
   ...rainbowMulmulColors.map((color, index) => {
@@ -779,7 +834,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: rainbowMulmulOfferPrice,
-      images: [`/images/shop-rainbow-mulmul-${item}.avif`],
+      images: [`/images/shop-rainbow-mulmul-${item}.jpg`],
     };
   }),
   ...softSilkColors.map((color, index) => {
@@ -791,7 +846,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: softSilkOfferPrice,
-      images: [`/images/shop-softsilk-${item}.avif`],
+      images: [`/images/shop-softsilk-${item}.jpg`],
     };
   }),
   ...araniSoftSilkColors.map((color, index) => {
@@ -803,7 +858,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: araniSoftSilkOfferPrice,
-      images: [`/images/shop-arani-soft-silk-${item}.avif`],
+      images: [`/images/shop-arani-soft-silk-${item}.jpg`],
     };
   }),
   ...fancySilkColors.map((color, index) => {
@@ -815,7 +870,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: fancyOfferPrice,
-      images: [`/images/shop-fancy-silk-${item}.avif`],
+      images: [`/images/shop-fancy-silk-${item}.jpg`],
     };
   }),
   ...fancySilkPrintedColors.map((color, index) => {
@@ -827,7 +882,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: fancySilkPrintedOfferPrice,
-      images: [`/images/shop-fancy-silk-${item}.avif`],
+      images: [`/images/shop-fancy-silk-${item}.jpg`],
     };
   }),
   ...tissuePrintedSoftCottonColors.map((color, index) => {
@@ -836,10 +891,10 @@ const shopProducts = [
       id: `tissue-printed-soft-cotton-${item}`,
       title: 'Tissue Printed Soft Cotton Saree',
       category: 'Tissue Printed Soft Cotton Sarees',
-      length: '6 meters',
+      length: '6.25 meters',
       color,
       price: tissuePrintedSoftCottonOfferPrice,
-      images: [`/images/shop-tissue-printed-soft-cotton-${item}.avif`],
+      images: [`/images/shop-tissue-printed-soft-cotton-${item}.jpg`],
     };
   }),
   ...sunflowerKhadiColors.map((color, index) => {
@@ -851,7 +906,7 @@ const shopProducts = [
       length: '6 meters',
       color,
       price: sunflowerKhadiOfferPrice,
-      images: [`/images/shop-sunflower-khadi-${item}.avif`],
+      images: [`/images/shop-sunflower-khadi-${item}.jpg`],
     };
   }),
     ...keralaCottonColors.map((color, index) => {
@@ -863,7 +918,7 @@ const shopProducts = [
       length: '6.25 meters',
       color,
       price: keralaCottonOfferPrice,
-      images: [`/images/shop-kerala-cotton-${item}.avif`],
+      images: [`/images/shop-kerala-cotton-${item}.jpg`],
     };
   }),
     ...keralaCheckedCottonColors.map((color, index) => {
@@ -875,7 +930,7 @@ const shopProducts = [
         length: '6.25 meters',
         color,
         price: pureCottonOfferPrice,
-        images: [`/images/shop-kerala-checked-${item}.avif`],
+        images: [`/images/shop-kerala-checked-${item}.jpg`],
       };
     }),
   ];
@@ -890,6 +945,44 @@ function formatRupees(value: number) {
   return `₹${value.toLocaleString('en-IN')}`;
 }
 
+type PriceFilterValue = 'all' | 'under-600' | '600-899' | '900-1099' | '1100-plus';
+
+const priceFilterOptions: { value: PriceFilterValue; label: string }[] = [
+  { value: 'all', label: 'All prices' },
+  { value: 'under-600', label: 'Under ₹600' },
+  { value: '600-899', label: '₹600 to ₹899' },
+  { value: '900-1099', label: '₹900 to ₹1,099' },
+  { value: '1100-plus', label: '₹1,100 and above' },
+];
+
+function matchesPriceFilter(product: ShopProduct, filter: PriceFilterValue) {
+  if (filter === 'all') return true;
+  if (!isOfferPrice(product.price)) return false;
+
+  const price = product.price.sale;
+  if (filter === 'under-600') return price < 600;
+  if (filter === '600-899') return price >= 600 && price <= 899;
+  if (filter === '900-1099') return price >= 900 && price <= 1099;
+  return price >= 1100;
+}
+
+function PriceFilterControl({
+  value,
+  onChange,
+  label = 'Filter by price',
+}: {
+  value: PriceFilterValue;
+  onChange: (value: PriceFilterValue) => void;
+  label?: string;
+}) {
+  return <label className="shop-price-filter">
+    <span><SlidersHorizontal size={15}/> {label}</span>
+    <select value={value} onChange={event => onChange(event.target.value as PriceFilterValue)} aria-label={label}>
+      {priceFilterOptions.map(option => <option value={option.value} key={option.value}>{option.label}</option>)}
+    </select>
+  </label>;
+}
+
 function ProductPrice({ price }: { price: ShopProduct['price'] }) {
   if (isOfferPrice(price)) {
     return <span className="shop-product__offer">
@@ -902,6 +995,47 @@ function ProductPrice({ price }: { price: ShopProduct['price'] }) {
   return <span>Price on request</span>;
 }
 
+type ReliableImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
+  src: string;
+};
+
+function getImageFallbacks(src: string) {
+  const candidates = [src];
+  const avifMatch = src.match(/^(.*)\.avif$/);
+  const jpgMatch = src.match(/^(.*)\.jpe?g$/);
+
+  if (avifMatch) {
+    candidates.push(`${avifMatch[1]}.jpg`, `${avifMatch[1]}.jpeg`);
+  } else if (jpgMatch) {
+    candidates.push(`${jpgMatch[1]}.jpeg`, `${jpgMatch[1]}.avif`);
+  }
+
+  return [...new Set(candidates)];
+}
+
+function ReliableImage({ src, onError, ...props }: ReliableImageProps) {
+  const fallbacks = getImageFallbacks(src);
+  const [fallbackIndex, setFallbackIndex] = useState(0);
+
+  useEffect(() => {
+    setFallbackIndex(0);
+  }, [src]);
+
+  return <img
+    {...props}
+    src={fallbacks[fallbackIndex]}
+    data-load-state="ready"
+    onError={event => {
+      onError?.(event);
+      if (fallbackIndex < fallbacks.length - 1) {
+        setFallbackIndex(index => index + 1);
+      } else {
+        event.currentTarget.dataset.loadState = 'error';
+      }
+    }}
+  />;
+}
+
 function ImageSlider({ product }: { product: ShopProduct }) {
   const [active, setActive] = useState(0);
   const next = () => setActive(index => (index + 1) % product.images.length);
@@ -909,7 +1043,7 @@ function ImageSlider({ product }: { product: ShopProduct }) {
   const hasMultipleImages = product.images.length > 1;
 
   return <div className="shop-slider">
-    <img src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} loading="lazy" decoding="async" />
+    <ReliableImage src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} loading="eager" decoding="async" />
     <div className="shop-slider__veil" />
     {hasMultipleImages && <div className="shop-slider__controls">
       <button onClick={prev} aria-label={`Previous image for ${product.title}`}><ChevronLeft size={17}/></button>
@@ -924,10 +1058,13 @@ function ImageSlider({ product }: { product: ShopProduct }) {
 
 function ShopPage() {
   const [category, setCategory] = useState<string | null>(null);
+  const [priceFilter, setPriceFilter] = useState<PriceFilterValue>('all');
   const productSection = useRef<HTMLElement>(null);
   const selectedCategory = category ? shopCategories.find(item => item.name === category) ?? null : null;
   const getCategoryProducts = (categoryName: string) => shopProducts.filter(product => product.category === categoryName);
-  const visibleProducts = category ? getCategoryProducts(category) : [];
+  const filteredProducts = shopProducts.filter(product => matchesPriceFilter(product, priceFilter));
+  const filteredCategories = shopCategories.filter(item => filteredProducts.some(product => product.category === item.name));
+  const visibleProducts = category ? filteredProducts.filter(product => product.category === category) : [];
   const whatsappNumber = `91${customerPhone}`;
 
   useEffect(() => {
@@ -941,6 +1078,14 @@ function ShopPage() {
     window.setTimeout(() => document.getElementById('shop-collections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 20);
   };
 
+  const updatePriceFilter = (nextFilter: PriceFilterValue) => {
+    setPriceFilter(nextFilter);
+    if (category && !getCategoryProducts(category).some(product => matchesPriceFilter(product, nextFilter))) {
+      setCategory(null);
+      window.setTimeout(() => document.getElementById('shop-collections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 20);
+    }
+  };
+
   const buildWhatsAppLink = (product: ShopProduct) => {
     const priceText = isOfferPrice(product.price)
       ? ` Offer price ${formatRupees(product.price.sale)}. MRP ${formatRupees(product.price.mrp)}.`
@@ -951,7 +1096,7 @@ function ShopPage() {
 
   return <section className="shop-page" id="shop">
     <div className="shop-showcase">
-      <img className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.avif" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" />
+      <ReliableImage className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.jpg" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" />
       <div className="shop-showcase__veil" aria-hidden="true" />
       <div className="shop-showcase__copy">
         <p className="shop-eyebrow">PK TEX SHOP</p>
@@ -977,11 +1122,15 @@ function ShopPage() {
           <p className="shop-eyebrow">CATEGORIES</p>
           <h2>Shop by category</h2>
         </div>
+        <div className="shop-filter-bar">
+          <PriceFilterControl value={priceFilter} onChange={updatePriceFilter} />
+          <span className="shop-filter-count" aria-live="polite">{filteredCategories.length} collections</span>
+        </div>
       </header>
 
       <div className="shop-collection-grid">
-        {shopCategories.map(item => {
-          const products = getCategoryProducts(item.name);
+        {filteredCategories.map(item => {
+          const products = getCategoryProducts(item.name).filter(product => matchesPriceFilter(product, priceFilter));
           const price = products[0]?.price;
           return <button
             type="button"
@@ -990,7 +1139,7 @@ function ShopPage() {
             key={item.name}
           >
             <span className="shop-collection-card__media">
-              <img src={item.image} alt={`${item.name} collection`} loading="eager" decoding="async" />
+              <ReliableImage src={item.image} alt={`${item.name} collection`} loading="eager" decoding="async" />
               <small>{item.count} styles</small>
             </span>
             <span className="shop-collection-card__body">
@@ -1013,8 +1162,9 @@ function ShopPage() {
         <button type="button" onClick={showAllCollections}><ArrowLeft size={17}/> All collections</button>
         <p className="shop-eyebrow">NOW VIEWING</p>
         <h2>{selectedCategory.name}</h2>
-        <div>
-          <span>{visibleProducts.length} styles available</span>
+        <div className="shop-products-view__summary">
+          <span className="shop-filter-count" aria-live="polite">{visibleProducts.length} styles available</span>
+          <PriceFilterControl value={priceFilter} onChange={updatePriceFilter} label="Filter selected collection by price" />
         </div>
       </header>
       <div className="shop-grid">
@@ -1114,4 +1264,6 @@ function App() {
   </main><footer><a className="brand" href="#home"><span>PK</span><i/><span>TEX</span></a><p>Elampillai, Tamil Nadu</p><p>© 2026 PK TEX</p></footer></>;
 }
 
-createRoot(document.getElementById('root')!).render(<App/>);
+const appWindow = window as typeof window & { __pkTexRoot?: ReturnType<typeof createRoot> };
+const root = appWindow.__pkTexRoot ??= createRoot(document.getElementById('root')!);
+root.render(<App/>);
