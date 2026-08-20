@@ -1261,7 +1261,12 @@ function App() {
     : isReviews
       ? <ReviewsPage/>
       : <><Hero/><ExpandingSareeAboutSection/><Collection/><ServiceHighlights/><ContactSection/></>}
-  </main><footer><a className="brand" href="#home"><span>PK</span><i/><span>TEX</span></a><p>Elampillai, Tamil Nadu</p><p>© 2026 PK TEX</p></footer></>;
+  </main><footer>
+    <a className="brand" href="#home"><span>PK</span><i/><span>TEX</span></a>
+    <p>Elampillai, Tamil Nadu</p>
+    <p>© 2026 PK TEX</p>
+    <p className="footer-credit">Built by Ambrissh <a href="tel:+919952222309">9952222309</a></p>
+  </footer></>;
 }
 
 const appWindow = window as typeof window & { __pkTexRoot?: ReturnType<typeof createRoot> };
