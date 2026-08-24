@@ -139,4 +139,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Shop image compatibility passed: all 15 category thumbnails and 272 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
+console.log(`Shop image compatibility passed: all 15 category thumbnails and 271 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);

@@ -302,8 +302,8 @@ const shopCategories = [
   {
     name: 'Tissue Printed Soft Cotton Sarees',
     description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
-    image: '/images/shop-tissue-printed-soft-cotton-01-chrome.jpg',
-    count: 18,
+    image: '/images/shop-tissue-printed-soft-cotton-10.jpg',
+    count: 17,
   },
   {
     name: 'Sunflower Khadi Cotton Sarees',
@@ -548,8 +548,9 @@ const fancySilkPrintedColors = [
   'Mustard Yellow Shimmer Printed Set',
 ];
 
+const tissuePrintedSoftCottonImageNumbers = Array.from({ length: 17 }, (_, index) => String(index + 2).padStart(2, '0'));
+
 const tissuePrintedSoftCottonColors = [
-  'Peacock Medallion Print',
   'Leaf Ganesha Print',
   'Radha Krishna Peacock Print',
   'Yellow Floral Print',
@@ -886,7 +887,7 @@ const shopProducts = [
     };
   }),
   ...tissuePrintedSoftCottonColors.map((color, index) => {
-    const item = String(index + 1).padStart(2, '0');
+    const item = tissuePrintedSoftCottonImageNumbers[index];
     return {
       id: `tissue-printed-soft-cotton-${item}`,
       title: 'Tissue Printed Soft Cotton Saree',
