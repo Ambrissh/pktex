@@ -276,6 +276,12 @@ const shopCategories = [
     count: 15,
   },
   {
+    name: 'Tissue Printed Soft Cotton Sarees',
+    description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
+    image: '/images/shop-tissue-printed-soft-cotton-10.jpg',
+    count: 17,
+  },
+  {
     name: '120 Count Mul Mul Cotton Sarees',
     description: 'Weightless 120-count mul mul cotton sarees with airy stripes, soft tassels, and borderless everyday elegance.',
     image: '/images/shop-mulmul-01-chrome.jpg',
@@ -304,12 +310,6 @@ const shopCategories = [
     description: 'Shopping-ready fancy silk sarees with geometric embroidery, peacock-inspired motifs, glossy borders, and rich boutique colours.',
     image: '/images/shop-fancy-silk-01-chrome.jpg',
     count: 36,
-  },
-  {
-    name: 'Tissue Printed Soft Cotton Sarees',
-    description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
-    image: '/images/shop-tissue-printed-soft-cotton-10.jpg',
-    count: 17,
   },
   {
     name: 'Sunflower Khadi Cotton Sarees',

@@ -75,11 +75,18 @@ const categoriesStart = mainSource.indexOf('const shopCategories');
 const categoriesEnd = mainSource.indexOf('\nconst kalyaniColors', categoriesStart);
 const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).matchAll(/image:\s*'\/images\/([^']+\.jpg)'/g)]
   .map(match => match[1]);
+const categoriesSource = mainSource.slice(categoriesStart, categoriesEnd);
 
 if (categoryImageNames.length !== 17) {
   failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 17`);
 }
 for (const imageName of categoryImageNames) validateJpeg(imageName);
+if (!categoriesSource.includes("name: 'Kadhi Cotton Sarees Type 2'")) {
+  failures.push('Kadhi Cotton Sarees Type 2 is missing from shop categories');
+}
+if (!categoriesSource.includes("image: '/images/shop-tissue-printed-soft-cotton-10.jpg'")) {
+  failures.push('Tissue Printed Soft Cotton Sarees category thumbnail must use the corrected image 10');
+}
 
 const productsStart = mainSource.indexOf('const shopProducts');
 const productsEnd = mainSource.indexOf('\ntype ReliableImageProps', productsStart);
@@ -92,6 +99,12 @@ if (avifGalleryReferences.length) {
 
 if (!/images:\s*\[[^\]]*\.jpg/.test(productsSource)) {
   failures.push('product galleries do not use browser-safe JPEG images');
+}
+if (!productsSource.includes("category: 'Kadhi Cotton Sarees Type 2'")) {
+  failures.push('Kadhi Cotton Sarees Type 2 products are missing');
+}
+if (productsSource.includes('/images/shop-tissue-printed-soft-cotton-01.jpg')) {
+  failures.push('Tissue Printed Soft Cotton Sarees still references removed image 01');
 }
 
 if (shopSources.length < 276) failures.push(`only ${shopSources.length} shop source images found; expected at least 276`);
