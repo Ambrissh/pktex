@@ -76,8 +76,8 @@ const categoriesEnd = mainSource.indexOf('\nconst kalyaniColors', categoriesStar
 const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).matchAll(/image:\s*'\/images\/([^']+\.jpg)'/g)]
   .map(match => match[1]);
 
-if (categoryImageNames.length !== 15) {
-  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 15`);
+if (categoryImageNames.length !== 16) {
+  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 16`);
 }
 for (const imageName of categoryImageNames) validateJpeg(imageName);
 
@@ -139,4 +139,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Shop image compatibility passed: all 15 category thumbnails and 271 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
+console.log(`Shop image compatibility passed: all 16 category thumbnails and 271 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);

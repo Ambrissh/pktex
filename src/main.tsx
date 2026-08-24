@@ -267,7 +267,13 @@ const shopCategories = [
     name: 'Kadhi Cotton Sarees',
     description: 'Soft khadi cotton drapes with floral handwork, daisy and embroidered flower motifs, fringe detailing, and fresh everyday boutique colours.',
     image: '/images/shop-kadhi-01-chrome.jpg',
-    count: 27,
+    count: 12,
+  },
+  {
+    name: 'Kadhi Cotton Sarees Type 2',
+    description: 'A second kadhi cotton edit with embroidered florals, tassel details, and deeper boutique-ready colourways.',
+    image: '/images/shop-kadhi-13.jpg',
+    count: 15,
   },
   {
     name: '120 Count Mul Mul Cotton Sarees',
@@ -420,6 +426,9 @@ const kadhiColors = [
   'Purple Daisy',
   'Baby Pink Daisy',
   'Wine Plum Daisy',
+];
+
+const kadhiType2Colors = [
   'Bright Yellow Embroidered Floral',
   'Maroon Embroidered Floral',
   'Forest Green Embroidered Floral',
@@ -808,6 +817,18 @@ const shopProducts = [
       id: `kadhi-${item}`,
       title: 'Kadhi Cotton Saree',
       category: 'Kadhi Cotton Sarees',
+      length: '6 meters',
+      color,
+      price: kadhiOfferPrice,
+      images: [`/images/shop-kadhi-${item}.jpg`],
+    };
+  }),
+  ...kadhiType2Colors.map((color, index) => {
+    const item = String(index + 13).padStart(2, '0');
+    return {
+      id: `kadhi-type-2-${item}`,
+      title: 'Kadhi Cotton Saree Type 2',
+      category: 'Kadhi Cotton Sarees Type 2',
       length: '6 meters',
       color,
       price: kadhiOfferPrice,
