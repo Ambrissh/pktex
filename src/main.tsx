@@ -71,7 +71,7 @@ function Hero() {
   return <section className={`hero ${liteMotion ? 'hero--lite-motion' : ''}`} id="home">
     <picture className="hero__portrait">
       <source srcSet="/images/hero-cultural.avif" type="image/avif" />
-      <img src="/images/hero-cultural.jpg" alt="A crimson handloom silk saree, brass lamp, jasmine and weaving shuttles beside a traditional wooden loom in Elampillai" width="1672" height="941" loading="eager" fetchPriority="high" decoding="async" />
+      <img src="/images/hero-cultural.jpg" alt="A smiling Tamil woman in a crimson silk saree beside brass lamps and folded sarees, with a Thanjavur temple tower in warm evening light" width="1672" height="941" loading="eager" fetchPriority="high" decoding="async" />
     </picture>
     <div className="hero__veil" aria-hidden="true" />
     <div className="hero__silk-motion" aria-hidden="true"><span/><span/></div>
