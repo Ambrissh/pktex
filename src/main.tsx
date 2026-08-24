@@ -321,7 +321,13 @@ const shopCategories = [
       name: 'Kerala Cotton Sarees',
       description: 'Onam-ready Kerala cotton sarees in warm ivory tones with temple-inspired borders, festive motifs, and celebration styling.',
       image: '/images/shop-kerala-cotton-01-chrome.jpg',
-      count: 11,
+      count: 10,
+    },
+    {
+      name: 'Checked Cotton Sarees',
+      description: 'Checked cotton sarees with Kerala-inspired kasavu borders, temple styling, and elegant festive presentation.',
+      image: '/images/shop-checked-cotton-01-a.jpg',
+      count: 3,
     },
     {
       name: 'Kerala Checked Cotton Sarees',
@@ -605,7 +611,31 @@ const keralaCottonColors = [
   'Ivory & Rust Peacock Motif',
   'Ivory & Deep Green Motif',
   'Ivory & Wine Floral Border',
-  'Ivory & Gold Kasavu Check',
+];
+
+const checkedCottonSarees = [
+  {
+    color: 'Authentic Kerala Checked Kasavu',
+    images: [
+      '/images/shop-kerala-cotton-11.jpg',
+      '/images/shop-checked-cotton-01-a.jpg',
+      '/images/shop-checked-cotton-01-b.jpg',
+    ],
+  },
+  {
+    color: 'Pure Gold Zari Checked Cotton',
+    images: [
+      '/images/shop-checked-cotton-02-a.jpg',
+      '/images/shop-checked-cotton-02-b.jpg',
+    ],
+  },
+  {
+    color: 'Tissue Silk Cotton Kasavu',
+    images: [
+      '/images/shop-checked-cotton-03-a.jpg',
+      '/images/shop-checked-cotton-03-b.jpg',
+    ],
+  },
 ];
 
 const keralaCheckedCottonColors = [
@@ -709,6 +739,12 @@ const keralaCottonOfferPrice = {
   mrp: 1499,
   sale: 699,
   label: 'Onam offer',
+};
+
+const checkedCottonOfferPrice = {
+  mrp: 1199,
+  sale: 599,
+  label: 'Limited offer',
 };
 
 const pureCottonOfferPrice = {
@@ -941,6 +977,18 @@ const shopProducts = [
       color,
       price: keralaCottonOfferPrice,
       images: [`/images/shop-kerala-cotton-${item}.jpg`],
+    };
+  }),
+  ...checkedCottonSarees.map((product, index) => {
+    const item = String(index + 1).padStart(2, '0');
+    return {
+      id: `checked-cotton-${item}`,
+      title: 'Checked Cotton Saree',
+      category: 'Checked Cotton Sarees',
+      length: '6.25 meters',
+      color: product.color,
+      price: checkedCottonOfferPrice,
+      images: product.images,
     };
   }),
     ...keralaCheckedCottonColors.map((color, index) => {

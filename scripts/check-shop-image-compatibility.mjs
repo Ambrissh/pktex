@@ -76,8 +76,8 @@ const categoriesEnd = mainSource.indexOf('\nconst kalyaniColors', categoriesStar
 const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).matchAll(/image:\s*'\/images\/([^']+\.jpg)'/g)]
   .map(match => match[1]);
 
-if (categoryImageNames.length !== 16) {
-  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 16`);
+if (categoryImageNames.length !== 17) {
+  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 17`);
 }
 for (const imageName of categoryImageNames) validateJpeg(imageName);
 
@@ -94,7 +94,7 @@ if (!/images:\s*\[[^\]]*\.jpg/.test(productsSource)) {
   failures.push('product galleries do not use browser-safe JPEG images');
 }
 
-if (shopSources.length < 270) failures.push(`only ${shopSources.length} shop source images found; expected at least 270`);
+if (shopSources.length < 276) failures.push(`only ${shopSources.length} shop source images found; expected at least 276`);
 
 const categoryRequirements = [
   ['Kalyani Cotton Sarees', /^shop-kalyani-\d{2}-[ab]\.jpg$/, 42],
@@ -110,6 +110,7 @@ const categoryRequirements = [
   ['Tissue Printed Soft Cotton Sarees', /^shop-tissue-printed-soft-cotton-\d{2}\.jpg$/, 18],
   ['Sunflower Khadi Cotton Sarees', /^shop-sunflower-khadi-\d{2}\.jpg$/, 12],
   ['Kerala Cotton Sarees', /^shop-kerala-cotton-\d{2}\.jpg$/, 11],
+  ['Checked Cotton Sarees', /^shop-checked-cotton-\d{2}-[ab]\.jpg$/, 6],
   ['Kerala Checked Cotton Sarees', /^shop-kerala-checked-\d{2}\.jpg$/, 10],
 ];
 
@@ -139,4 +140,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Shop image compatibility passed: all 16 category thumbnails and 271 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
+console.log(`Shop image compatibility passed: all 17 category thumbnails and 277 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
