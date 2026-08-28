@@ -318,7 +318,7 @@ const shopCategories = [
     count: 12,
   },
     {
-      name: 'Kerala Cotton Sarees',
+      name: 'Kerala Hand Printed Cotton Sareess',
       description: 'Onam-ready Kerala cotton sarees in warm ivory tones with temple-inspired borders, festive motifs, and celebration styling.',
       image: '/images/shop-kerala-cotton-01-chrome.jpg',
       count: 10,
@@ -972,7 +972,7 @@ const shopProducts = [
       return {
         id: `kerala-cotton-${item}`,
       title: 'Kerala Cotton Saree',
-      category: 'Kerala Cotton Sarees',
+      category: 'Kerala Hand Printed Cotton Sareess',
       length: '6.25 meters',
       color,
       price: keralaCottonOfferPrice,

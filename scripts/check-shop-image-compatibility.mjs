@@ -122,7 +122,7 @@ const categoryRequirements = [
   ['Fancy Silk Sarees', /^shop-fancy-silk-\d{2}\.jpg$/, 36],
   ['Tissue Printed Soft Cotton Sarees', /^shop-tissue-printed-soft-cotton-\d{2}\.jpg$/, 18],
   ['Sunflower Khadi Cotton Sarees', /^shop-sunflower-khadi-\d{2}\.jpg$/, 12],
-  ['Kerala Cotton Sarees', /^shop-kerala-cotton-\d{2}\.jpg$/, 11],
+  ['Kerala Hand Printed Cotton Sareess', /^shop-kerala-cotton-\d{2}\.jpg$/, 11],
   ['Checked Cotton Sarees', /^shop-checked-cotton-\d{2}-[ab]\.jpg$/, 6],
   ['Kerala Checked Cotton Sarees', /^shop-kerala-checked-\d{2}\.jpg$/, 10],
 ];
