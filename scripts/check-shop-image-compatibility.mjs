@@ -77,8 +77,8 @@ const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).
   .map(match => match[1]);
 const categoriesSource = mainSource.slice(categoriesStart, categoriesEnd);
 
-if (categoryImageNames.length !== 17) {
-  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 17`);
+if (categoryImageNames.length !== 19) {
+  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 19`);
 }
 for (const imageName of categoryImageNames) validateJpeg(imageName);
 if (!categoriesSource.includes("name: 'Kadhi Cotton Sarees Type 2'")) {
@@ -86,6 +86,12 @@ if (!categoriesSource.includes("name: 'Kadhi Cotton Sarees Type 2'")) {
 }
 if (!categoriesSource.includes("image: '/images/shop-tissue-printed-soft-cotton-10.jpg'")) {
   failures.push('Tissue Printed Soft Cotton Sarees category thumbnail must use the corrected image 10');
+}
+if (!categoriesSource.includes('name: "Pure Plain Cotton Saree\'s"')) {
+  failures.push("Pure Plain Cotton Saree's is missing from shop categories");
+}
+if (!categoriesSource.includes('name: "tissue pure Plain Cotton Saree\'s"')) {
+  failures.push("tissue pure Plain Cotton Saree's is missing from shop categories");
 }
 
 const productsStart = mainSource.indexOf('const shopProducts');
@@ -102,6 +108,12 @@ if (!/images:\s*\[[^\]]*\.jpg/.test(productsSource)) {
 }
 if (!productsSource.includes("category: 'Kadhi Cotton Sarees Type 2'")) {
   failures.push('Kadhi Cotton Sarees Type 2 products are missing');
+}
+if (!productsSource.includes('category: "Pure Plain Cotton Saree\'s"')) {
+  failures.push("Pure Plain Cotton Saree's products are missing");
+}
+if (!productsSource.includes('category: "tissue pure Plain Cotton Saree\'s"')) {
+  failures.push("tissue pure Plain Cotton Saree's products are missing");
 }
 if (productsSource.includes('/images/shop-tissue-printed-soft-cotton-01.jpg')) {
   failures.push('Tissue Printed Soft Cotton Sarees still references removed image 01');
@@ -153,4 +165,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Shop image compatibility passed: all 17 category thumbnails and 277 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
+console.log(`Shop image compatibility passed: all 19 category thumbnails and 277 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);

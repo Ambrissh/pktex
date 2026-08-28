@@ -327,7 +327,19 @@ const shopCategories = [
       name: 'Checked Cotton Sarees',
       description: 'Checked cotton sarees with Kerala-inspired kasavu borders, temple styling, and elegant festive presentation.',
       image: '/images/shop-checked-cotton-01-a.jpg',
-      count: 3,
+      count: 1,
+    },
+    {
+      name: "Pure Plain Cotton Saree's",
+      description: 'Pure plain cotton sarees with kasavu-inspired borders, soft drape, and elegant temple presentation.',
+      image: '/images/shop-checked-cotton-02-a.jpg',
+      count: 1,
+    },
+    {
+      name: "tissue pure Plain Cotton Saree's",
+      description: 'Tissue pure plain cotton sarees with subtle sheen, kasavu styling, and graceful festive presentation.',
+      image: '/images/shop-checked-cotton-03-a.jpg',
+      count: 1,
     },
     {
       name: 'Kerala Checked Cotton Sarees',
@@ -622,6 +634,9 @@ const checkedCottonSarees = [
       '/images/shop-checked-cotton-01-b.jpg',
     ],
   },
+];
+
+const purePlainCottonSarees = [
   {
     color: 'Pure Gold Zari Checked Cotton',
     images: [
@@ -629,6 +644,9 @@ const checkedCottonSarees = [
       '/images/shop-checked-cotton-02-b.jpg',
     ],
   },
+];
+
+const tissuePurePlainCottonSarees = [
   {
     color: 'Tissue Silk Cotton Kasavu',
     images: [
@@ -985,6 +1003,30 @@ const shopProducts = [
       id: `checked-cotton-${item}`,
       title: 'Checked Cotton Saree',
       category: 'Checked Cotton Sarees',
+      length: '6.25 meters',
+      color: product.color,
+      price: checkedCottonOfferPrice,
+      images: product.images,
+    };
+  }),
+  ...purePlainCottonSarees.map((product, index) => {
+    const item = String(index + 1).padStart(2, '0');
+    return {
+      id: `pure-plain-cotton-${item}`,
+      title: "Pure Plain Cotton Saree's",
+      category: "Pure Plain Cotton Saree's",
+      length: '6.25 meters',
+      color: product.color,
+      price: checkedCottonOfferPrice,
+      images: product.images,
+    };
+  }),
+  ...tissuePurePlainCottonSarees.map((product, index) => {
+    const item = String(index + 1).padStart(2, '0');
+    return {
+      id: `tissue-pure-plain-cotton-${item}`,
+      title: "tissue pure Plain Cotton Saree's",
+      category: "tissue pure Plain Cotton Saree's",
       length: '6.25 meters',
       color: product.color,
       price: checkedCottonOfferPrice,
