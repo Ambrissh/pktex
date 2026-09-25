@@ -1,12 +1,12 @@
 import { readFile } from 'node:fs/promises';
 
 const [main, styles] = await Promise.all([
-  readFile(new URL('../src/main.tsx', import.meta.url), 'utf8'),
-  readFile(new URL('../src/styles.css', import.meta.url), 'utf8'),
+  readFile(new URL('../src/HomeHero.tsx', import.meta.url), 'utf8'),
+  readFile(new URL('../src/hero.css', import.meta.url), 'utf8'),
 ]);
 
 const heroStart = main.indexOf('function Hero()');
-const heroEnd = main.indexOf('\nconst facts', heroStart);
+const heroEnd = main.length;
 const hero = main.slice(heroStart, heroEnd);
 
 const failures = [];
@@ -26,10 +26,10 @@ if (/\.hero__image\s*\{[^}]*background-image[^}]*url\(/s.test(styles)) {
   failures.push('Hero artwork must use a real image element with a browser fallback.');
 }
 
-requirePattern(/<picture className="hero__portrait"/, 'Hero needs a responsive cultural portrait.');
-requirePattern(/hero-cultural\.avif/, 'Hero needs an optimized AVIF source.');
-requirePattern(/hero-cultural\.jpg/, 'Hero needs a JPEG fallback for older Firefox.');
-requirePattern(/hero--lite-motion/, 'Hero needs a low-power animation mode.');
+requirePattern(/<picture className="campaign__portrait"/, 'Hero needs a responsive editorial portrait.');
+requirePattern(/hero-editorial\.avif/, 'Hero needs an optimized AVIF source.');
+requirePattern(/hero-editorial\.jpg/, 'Hero needs a JPEG fallback for older Firefox.');
+requirePattern(/campaign--lite-motion/, 'Hero needs a low-power animation mode.');
 requirePattern(/prefers-reduced-motion:\s*reduce/, 'Hero motion needs a reduced-motion fallback.');
 requirePattern(/height:\s*100vh;\s*height:\s*100svh/, 'Hero needs a 100vh fallback for older Firefox.');
 

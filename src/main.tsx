@@ -1,14 +1,14 @@
 import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, Globe2, Headphones, MapPin, Menu, MessageCircle, RotateCcw, ShieldCheck, SlidersHorizontal, Truck, X } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, ChevronLeft, ChevronRight, Globe2, Headphones, MapPin, MessageCircle, RotateCcw, ShieldCheck, SlidersHorizontal, Truck } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ExpandingSareeAboutSection from './ExpandingSareeAboutSection';
 import './styles.css';
+import { Header, Hero } from './HomeHero';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const navItems = [['Home', '#home'], ['Shop', '#shop'], ['Reviews', '#reviews']];
 const customerPhone = '9994536855';
 const customerPhoneDisplay = '+91 99945 36855';
 const whatsAppOrderLink = `https://wa.me/91${customerPhone}?text=Hi%20PK%20TEX%2C%20I%20want%20to%20place%20an%20order.`;
@@ -22,72 +22,6 @@ function useReveal(route: string) {
   }, [route]);
 }
 
-function Header({ onLightPage = false }: { onLightPage?: boolean }) {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-  useEffect(() => {
-    document.body.classList.toggle('navigation-open', open);
-    return () => document.body.classList.remove('navigation-open');
-  }, [open]);
-  return <header className={`header ${onLightPage ? 'header--light-page' : ''} ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--menu-open' : ''}`}>
-    <a className="brand" href="#home" aria-label="PK TEX home"><span>PK</span><i/><span>TEX</span></a>
-    <nav className={open ? 'nav nav--open' : 'nav'} id="main-navigation" aria-label="Main navigation">
-      {navItems.map(([label, href], i) => <a key={href} href={href} style={{ '--i': i } as CSSProperties} onClick={() => setOpen(false)}>{label}</a>)}
-      <a className="nav__visit" href="#contact" style={{ '--i': navItems.length } as CSSProperties} onClick={() => setOpen(false)}>Contact Us <ArrowUpRight size={15}/></a>
-    </nav>
-    <button className="menu" onClick={() => setOpen(v => !v)} aria-controls="main-navigation" aria-expanded={open} aria-label="Toggle navigation">{open ? <X/> : <Menu/>}</button>
-  </header>;
-}
-
-function Hero() {
-  const [liteMotion, setLiteMotion] = useState(true);
-
-  useEffect(() => {
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const clientNavigator = navigator as Navigator & {
-      deviceMemory?: number;
-      connection?: { saveData?: boolean };
-    };
-    const updateMotionMode = () => {
-      const limitedCpu = clientNavigator.hardwareConcurrency > 0 && clientNavigator.hardwareConcurrency <= 4;
-      const limitedMemory = typeof clientNavigator.deviceMemory === 'number' && clientNavigator.deviceMemory <= 4;
-      setLiteMotion(motionPreference.matches || limitedCpu || limitedMemory || Boolean(clientNavigator.connection?.saveData));
-    };
-
-    updateMotionMode();
-    if (motionPreference.addEventListener) motionPreference.addEventListener('change', updateMotionMode);
-    else motionPreference.addListener(updateMotionMode);
-    return () => {
-      if (motionPreference.removeEventListener) motionPreference.removeEventListener('change', updateMotionMode);
-      else motionPreference.removeListener(updateMotionMode);
-    };
-  }, []);
-
-  return <section className={`hero ${liteMotion ? 'hero--lite-motion' : ''}`} id="home">
-    <picture className="hero__portrait">
-      <source srcSet="/images/hero-cultural.avif" type="image/avif" />
-      <img src="/images/hero-cultural.jpg" alt="A smiling Tamil woman in a crimson silk saree beside brass lamps and folded sarees, with a Thanjavur temple tower in warm evening light" width="1672" height="941" loading="eager" fetchPriority="high" decoding="async" />
-    </picture>
-    <div className="hero__veil" aria-hidden="true" />
-    <div className="hero__silk-motion" aria-hidden="true"><span/><span/></div>
-    <div className="hero__zari-border" aria-hidden="true" />
-    <div className="hero__content">
-      <p className="hero__kicker intro intro--1">Handloom heritage <i/> Elampillai</p>
-      <h1 className="wordmark" aria-label="PK TEX"><span className="intro intro--2">PK</span><em className="intro intro--3">TEX</em></h1>
-      <div className="hero__origin intro intro--4">
-        <p className="hero__place">Elampillai</p>
-        <p className="hero__since">Since 1998</p>
-      </div>
-      <p className="hero__story intro intro--5">Woven by tradition.<br/>Made for today.</p>
-      <a className="hero__cta intro intro--5" href="#shop">Shop Sarees <ArrowUpRight size={18}/></a>
-    </div>
-  </section>;
-}
 
 const facts = [
   ['30', '+', 'Years of Experience'], ['400', '+', 'Production Looms'], ['10', 'K+', 'Happy Customers'],
@@ -276,10 +210,28 @@ const shopCategories = [
     count: 15,
   },
   {
+    name: "Kahadi Cotton Saree's & Kalamkari Blouse",
+    description: 'Kahadi cotton sarees paired with Kalamkari blouse pieces, finished with tassel detailing and rich everyday colours.',
+    image: '/images/shop-kahadi-kalamkari-01.jpg',
+    count: 15,
+  },
+  {
     name: 'Tissue Printed Soft Cotton Sarees',
     description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
     image: '/images/shop-tissue-printed-soft-cotton-10.jpg',
     count: 17,
+  },
+  {
+    name: 'Kubra Tissue Soft Silk Sarees',
+    description: 'Shimmering Kubra tissue soft silk sarees with peacock motifs, luminous borders, and elegant festive colours.',
+    image: '/images/shop-kubra-tissue-soft-silk-01.jpg',
+    count: 6,
+  },
+  {
+    name: "Tissue Soft Silk Saree's",
+    description: 'Lustrous tissue soft silk sarees with contrast pallus, tassel edges, and elegant festive colour combinations.',
+    image: '/images/shop-tissue-soft-silk-01.jpg',
+    count: 18,
   },
   {
     name: '120 Count Mul Mul Cotton Sarees',
@@ -300,10 +252,28 @@ const shopCategories = [
     count: 21,
   },
   {
+    name: "Meena Soft Silk Saree's",
+    description: 'Meena soft silk sarees with woven floral motifs, tassel detailing, and rich festive colour pairings.',
+    image: '/images/shop-meena-soft-silk-01.jpg',
+    count: 15,
+  },
+  {
     name: 'Arani Soft Silk Sarees',
     description: 'Arani soft silk sarees with neat pleated presentation, fine zari line work, contrast pallus, and smooth festive colours.',
     image: '/images/shop-arani-soft-silk-01-chrome.jpg',
     count: 6,
+  },
+  {
+    name: "Semi Katan Soft Silk Saree's",
+    description: 'Semi Katan soft silk sarees with fine zari checks, rich contrast borders, and matching blouse detailing.',
+    image: '/images/shop-semi-katan-soft-silk-01-a.jpg',
+    count: 7,
+  },
+  {
+    name: "Semi Katan Half And Half Soft Silk Saree's",
+    description: 'Semi Katan half-and-half soft silk sarees with rich contrast colour blocking, zari borders, and matching blouse detailing.',
+    image: '/images/shop-semi-katan-half-and-half-01-a.jpg',
+    count: 1,
   },
   {
     name: 'Fancy Silk Sarees',
@@ -464,6 +434,24 @@ const kadhiType2Colors = [
   'Baby Pink Embroidered Floral',
 ];
 
+const kahadiKalamkariColors = [
+  'Red & Indigo Kalamkari',
+  'Wine & Monochrome Kalamkari',
+  'Pink & Black Kalamkari',
+  'Royal Blue & Red Kalamkari',
+  'Lime Green & Black Kalamkari',
+  'Magenta & Indigo Kalamkari',
+  'Yellow & Black Kalamkari',
+  'Peach & Red Kalamkari',
+  'Deep Purple & Indigo Kalamkari',
+  'Black & Indigo Kalamkari',
+  'Rani Pink & Multicolour Kalamkari',
+  'Bottle Green & Maroon Kalamkari',
+  'Sky Blue & Black Kalamkari',
+  'Olive Green & Maroon Kalamkari',
+  'White & Mustard Kalamkari',
+];
+
 const mulmulColors = [
   'Pink Yellow Borderless Stripe',
   'Olive Orange Comfort Stripe',
@@ -522,6 +510,24 @@ const softSilkColors = [
   'Baby Pink & Sage Green',
   'Rani Pink & Sky Blue',
   'Teal & Royal Blue',
+];
+
+const meenaSoftSilkColors = [
+  'Charcoal Grey & Gold Floral',
+  'Parrot Green & Gold Floral',
+  'Rust Orange & White Floral',
+  'Violet & Red Floral',
+  'Lime Green & Gold Butta',
+  'Pista Green Woven Motif',
+  'Steel Grey & Gold Floral',
+  'Teal Blue & Gold Floral',
+  'Wine Maroon Floral Butta',
+  'Lime Green & Gold Floral',
+  'Mustard Gold Floral',
+  'Sky Blue & Silver Floral',
+  'Pink Woven Motif',
+  'Bottle Green & Rani Pink Floral',
+  'Royal Blue Floral',
 ];
 
 const araniSoftSilkColors = [
@@ -595,6 +601,36 @@ const tissuePrintedSoftCottonColors = [
   'Orange Floral Temple Drape',
   'Peacock Floral Temple Drape',
   'Yellow Floral Temple Drape',
+];
+
+const kubraTissueSoftSilkColors = [
+  'Champagne & Mint Peacock',
+  'Gold & Sky Blue Peacock',
+  'Mustard & Silver Peacock',
+  'Sea Green & Violet Peacock',
+  'Lime Green & Mint Peacock',
+  'Lavender & Violet Peacock',
+];
+
+const tissueSoftSilkColors = [
+  'Mustard Gold Tissue',
+  'Violet & Magenta Tissue',
+  'Maroon & Antique Gold Tissue',
+  'Lavender & Gold Tissue',
+  'Silver Grey & Antique Gold Tissue',
+  'Indigo & Lime Tissue',
+  'Black & Silver Tissue',
+  'Silver & Magenta Tissue',
+  'Silver Grey & Gold Tissue',
+  'Silver Grey & Lime Tissue',
+  'Ivory & Yellow Gold Tissue',
+  'Silver & Olive Green Tissue',
+  'Black & Silver Border Tissue',
+  'Olive & Silver Tissue',
+  'Pink & Antique Gold Tissue',
+  'Bronze & Sage Green Tissue',
+  'Purple & Antique Gold Tissue',
+  'Olive & Teal Green Tissue',
 ];
 
 const sunflowerKhadiColors = [
@@ -683,7 +719,7 @@ const devotionalOfferPrice = {
 
 const kalyaniOfferPrice = {
   mrp: 1699,
-  sale: 999,
+  sale: 1499,
   label: 'Limited offer',
 };
 
@@ -705,9 +741,15 @@ const kadhiOfferPrice = {
   label: 'Limited offer',
 };
 
+const kahadiKalamkariOfferPrice = {
+  mrp: 1999,
+  sale: 749,
+  label: 'Limited offer',
+};
+
 const mulmulOfferPrice = {
   mrp: 2199,
-  sale: 899,
+  sale: 999,
   label: 'Limited offer',
 };
 
@@ -723,15 +765,33 @@ const softSilkOfferPrice = {
   label: 'Limited offer',
 };
 
+const meenaSoftSilkOfferPrice = {
+  mrp: 2599,
+  sale: 1199,
+  label: 'Limited offer',
+};
+
 const araniSoftSilkOfferPrice = {
   mrp: 2199,
   sale: 1199,
   label: 'Limited offer',
 };
 
+const semiKatanSoftSilkPrices = [
+  { sale: 1199, label: 'Price' },
+  { sale: 1249, label: 'Price' },
+  { sale: 1299, label: 'Price' },
+  { sale: 1269, label: 'Price' },
+  { sale: 1269, label: 'Price' },
+  { sale: 1269, label: 'Price' },
+  { sale: 1399, label: 'Price' },
+];
+
+const semiKatanHalfAndHalfPrice = { sale: 1399, label: 'Price' };
+
 const fancyOfferPrice = {
   mrp: 999,
-  sale: 499,
+  sale: 599,
   label: 'Limited offer',
 };
 
@@ -743,6 +803,18 @@ const fancySilkPrintedOfferPrice = {
 
 const tissuePrintedSoftCottonOfferPrice = {
   mrp: 1499,
+  sale: 799,
+  label: 'Limited offer',
+};
+
+const kubraTissueSoftSilkOfferPrice = {
+  mrp: 1999,
+  sale: 799,
+  label: 'Limited offer',
+};
+
+const tissueSoftSilkOfferPrice = {
+  mrp: 1999,
   sale: 799,
   label: 'Limited offer',
 };
@@ -760,6 +832,12 @@ const keralaCottonOfferPrice = {
 };
 
 const checkedCottonOfferPrice = {
+  mrp: 1199,
+  sale: 699,
+  label: 'Limited offer',
+};
+
+const plainCottonOfferPrice = {
   mrp: 1199,
   sale: 599,
   label: 'Limited offer',
@@ -889,6 +967,18 @@ const shopProducts = [
       images: [`/images/shop-kadhi-${item}.jpg`],
     };
   }),
+  ...kahadiKalamkariColors.map((color, index) => {
+    const item = String(index + 1).padStart(2, '0');
+    return {
+      id: `kahadi-kalamkari-${item}`,
+      title: "Kahadi Cotton Saree's & Kalamkari Blouse",
+      category: "Kahadi Cotton Saree's & Kalamkari Blouse",
+      length: '6 meters',
+      color,
+      price: kahadiKalamkariOfferPrice,
+      images: [`/images/shop-kahadi-kalamkari-${item}.jpg`],
+    };
+  }),
   ...mulmulColors.map((color, index) => {
     const item = String(index + 1).padStart(2, '0');
     return {
@@ -925,6 +1015,18 @@ const shopProducts = [
       images: [`/images/shop-softsilk-${item}.jpg`],
     };
   }),
+  ...meenaSoftSilkColors.map((color, index) => {
+    const item = String(index + 1).padStart(2, '0');
+    return {
+      id: `meena-soft-silk-${item}`,
+      title: 'Meena Soft Silk Saree',
+      category: "Meena Soft Silk Saree's",
+      length: '6 meters',
+      color,
+      price: meenaSoftSilkOfferPrice,
+      images: [`/images/shop-meena-soft-silk-${item}.jpg`],
+    };
+  }),
   ...araniSoftSilkColors.map((color, index) => {
     const item = String(index + 1).padStart(2, '0');
     return {
@@ -937,6 +1039,82 @@ const shopProducts = [
       images: [`/images/shop-arani-soft-silk-${item}.jpg`],
     };
   }),
+  {
+    id: 'semi-katan-soft-silk-01',
+    title: 'Semi Katan Soft Silk Saree',
+    category: "Semi Katan Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Rani Pink & Gold',
+    price: semiKatanSoftSilkPrices[0],
+    images: ['/images/shop-semi-katan-soft-silk-01-a.jpg', '/images/shop-semi-katan-soft-silk-01-b.jpg'],
+  },
+  {
+    id: 'semi-katan-soft-silk-02',
+    title: 'Semi Katan Soft Silk Saree',
+    category: "Semi Katan Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Royal Blue & Gold',
+    price: semiKatanSoftSilkPrices[1],
+    images: ['/images/shop-semi-katan-soft-silk-02-a.jpg', '/images/shop-semi-katan-soft-silk-02-b.jpg'],
+  },
+  {
+    id: 'semi-katan-soft-silk-03',
+    title: 'Semi Katan Soft Silk Saree',
+    category: "Semi Katan Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Maroon & Gold',
+    price: semiKatanSoftSilkPrices[2],
+    images: ['/images/shop-semi-katan-soft-silk-03-a.jpg', '/images/shop-semi-katan-soft-silk-03-b.jpg'],
+  },
+  {
+    id: 'semi-katan-soft-silk-04',
+    title: 'Semi Katan Soft Silk Saree',
+    category: "Semi Katan Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Royal Purple & Gold',
+    price: semiKatanSoftSilkPrices[3],
+    images: ['/images/shop-semi-katan-soft-silk-04-a.jpg', '/images/shop-semi-katan-soft-silk-04-b.jpg'],
+  },
+  {
+    id: 'semi-katan-soft-silk-05',
+    title: 'Semi Katan Soft Silk Saree',
+    category: "Semi Katan Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Red & Gold',
+    price: semiKatanSoftSilkPrices[4],
+    images: ['/images/shop-semi-katan-soft-silk-05-a.jpg', '/images/shop-semi-katan-soft-silk-05-b.jpg'],
+  },
+  {
+    id: 'semi-katan-soft-silk-06',
+    title: 'Semi Katan Soft Silk Saree',
+    category: "Semi Katan Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Royal Blue & Silver',
+    price: semiKatanSoftSilkPrices[5],
+    images: ['/images/shop-semi-katan-soft-silk-06-a.jpg', '/images/shop-semi-katan-soft-silk-06-b.jpg'],
+  },
+  {
+    id: 'semi-katan-soft-silk-07',
+    title: 'Semi Katan Soft Silk Saree',
+    category: "Semi Katan Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Wine & Silver',
+    price: semiKatanSoftSilkPrices[6],
+    images: [
+      '/images/shop-semi-katan-soft-silk-07-a.jpg',
+      '/images/shop-semi-katan-soft-silk-07-b.jpg',
+      '/images/shop-semi-katan-soft-silk-07-c.jpg',
+    ],
+  },
+  {
+    id: 'semi-katan-half-and-half-01',
+    title: 'Semi Katan Half And Half Soft Silk Saree',
+    category: "Semi Katan Half And Half Soft Silk Saree's",
+    length: '6 meters',
+    color: 'Purple & Olive Gold',
+    price: semiKatanHalfAndHalfPrice,
+    images: ['/images/shop-semi-katan-half-and-half-01-a.jpg', '/images/shop-semi-katan-half-and-half-01-b.jpg'],
+  },
   ...fancySilkColors.map((color, index) => {
     const item = String(index + 1).padStart(2, '0');
     return {
@@ -971,6 +1149,30 @@ const shopProducts = [
       color,
       price: tissuePrintedSoftCottonOfferPrice,
       images: [`/images/shop-tissue-printed-soft-cotton-${item}.jpg`],
+    };
+  }),
+  ...kubraTissueSoftSilkColors.map((color, index) => {
+    const item = String(index + 1).padStart(2, '0');
+    return {
+      id: `kubra-tissue-soft-silk-${item}`,
+      title: 'Kubra Tissue Soft Silk Saree',
+      category: 'Kubra Tissue Soft Silk Sarees',
+      length: '6 meters',
+      color,
+      price: kubraTissueSoftSilkOfferPrice,
+      images: [`/images/shop-kubra-tissue-soft-silk-${item}.jpg`],
+    };
+  }),
+  ...tissueSoftSilkColors.map((color, index) => {
+    const item = String(index + 1).padStart(2, '0');
+    return {
+      id: `tissue-soft-silk-${item}`,
+      title: 'Tissue Soft Silk Saree',
+      category: "Tissue Soft Silk Saree's",
+      length: '6 meters',
+      color,
+      price: tissueSoftSilkOfferPrice,
+      images: [`/images/shop-tissue-soft-silk-${item}.jpg`],
     };
   }),
   ...sunflowerKhadiColors.map((color, index) => {
@@ -1017,7 +1219,7 @@ const shopProducts = [
       category: "Pure Plain Cotton Saree's",
       length: '6.25 meters',
       color: product.color,
-      price: checkedCottonOfferPrice,
+      price: plainCottonOfferPrice,
       images: product.images,
     };
   }),
@@ -1029,7 +1231,7 @@ const shopProducts = [
       category: "tissue pure Plain Cotton Saree's",
       length: '6.25 meters',
       color: product.color,
-      price: checkedCottonOfferPrice,
+      price: plainCottonOfferPrice,
       images: product.images,
     };
   }),
@@ -1049,8 +1251,14 @@ const shopProducts = [
 
 type ShopProduct = typeof shopProducts[number];
 
-function isOfferPrice(price: ShopProduct['price']): price is typeof maheshwariOfferPrice {
-  return typeof price === 'object' && price !== null && 'sale' in price;
+type DisplayPrice = { sale?: number; mrp?: number; label?: string };
+
+function isOfferPrice(price: DisplayPrice): price is Required<Pick<DisplayPrice, 'sale' | 'mrp' | 'label'>> {
+  return typeof price.sale === 'number' && typeof price.mrp === 'number';
+}
+
+function isListedPrice(price: DisplayPrice): price is Required<Pick<DisplayPrice, 'sale' | 'label'>> {
+  return typeof price.sale === 'number';
 }
 
 function formatRupees(value: number) {
@@ -1069,7 +1277,7 @@ const priceFilterOptions: { value: PriceFilterValue; label: string }[] = [
 
 function matchesPriceFilter(product: ShopProduct, filter: PriceFilterValue) {
   if (filter === 'all') return true;
-  if (!isOfferPrice(product.price)) return false;
+  if (!isListedPrice(product.price)) return false;
 
   const price = product.price.sale;
   if (filter === 'under-600') return price < 600;
@@ -1095,11 +1303,18 @@ function PriceFilterControl({
   </label>;
 }
 
-function ProductPrice({ price }: { price: ShopProduct['price'] }) {
+function ProductPrice({ price }: { price: DisplayPrice }) {
   if (isOfferPrice(price)) {
     return <span className="shop-product__offer">
       <small>{price.label}</small>
       <del>MRP {formatRupees(price.mrp)}</del>
+      <strong>{formatRupees(price.sale)}</strong>
+    </span>;
+  }
+
+  if (isListedPrice(price)) {
+    return <span className="shop-product__listed-price">
+      <small>{price.label}</small>
       <strong>{formatRupees(price.sale)}</strong>
     </span>;
   }
@@ -1201,7 +1416,7 @@ function ShopPage() {
   const buildWhatsAppLink = (product: ShopProduct) => {
     const priceText = isOfferPrice(product.price)
       ? ` Offer price ${formatRupees(product.price.sale)}. MRP ${formatRupees(product.price.mrp)}.`
-      : '';
+      : isListedPrice(product.price) ? ` Price ${formatRupees(product.price.sale)}.` : '';
     const message = `Hi PK TEX, I want to place an order for ${product.title} - ${product.color} (${product.length}).${priceText}`;
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   };
@@ -1244,6 +1459,7 @@ function ShopPage() {
         {filteredCategories.map(item => {
           const products = getCategoryProducts(item.name).filter(product => matchesPriceFilter(product, priceFilter));
           const price = products[0]?.price;
+          const listedPrice = price && isListedPrice(price) ? price : null;
           return <button
             type="button"
             className={category === item.name ? 'shop-collection-card is-active' : 'shop-collection-card'}
@@ -1260,6 +1476,9 @@ function ShopPage() {
                 {price && isOfferPrice(price) && <span className="shop-collection-card__price">
                   <span><small>MRP</small><del>{formatRupees(price.mrp)}</del></span>
                   <span><small>Offer price</small><b>{formatRupees(price.sale)}</b></span>
+                </span>}
+                {listedPrice && !isOfferPrice(listedPrice) && <span className="shop-collection-card__price">
+                  <span><small>{listedPrice.label}</small><b>{formatRupees(listedPrice.sale)}</b></span>
                 </span>}
                 <i aria-hidden="true"><ArrowUpRight size={18}/></i>
               </span>
@@ -1368,11 +1587,11 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [route]);
 
-  return <><Header onLightPage={isReviews}/><main>{isShop
+  return <><Header route={route}/><main>{isShop
     ? <ShopPage/>
     : isReviews
       ? <ReviewsPage/>
-      : <><Hero/><ExpandingSareeAboutSection/><Collection/><ServiceHighlights/><ContactSection/></>}
+      : <><Hero/><div id="our-story"><ExpandingSareeAboutSection/></div><Collection/><ServiceHighlights/><ContactSection/></>}
   </main><footer>
     <a className="brand" href="#home"><span>PK</span><i/><span>TEX</span></a>
     <p>Elampillai, Tamil Nadu</p>

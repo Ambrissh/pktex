@@ -15,8 +15,8 @@ function sizeOf(path) {
   return statSync(path).size;
 }
 
-const heroBytes = sizeOf(join(imagesDir, 'hero-cultural.avif'));
-const heroFallbackBytes = sizeOf(join(imagesDir, 'hero-cultural.jpg'));
+const heroBytes = sizeOf(join(imagesDir, 'hero-editorial.avif'));
+const heroFallbackBytes = sizeOf(join(imagesDir, 'hero-editorial.jpg'));
 const textureBytes = sizeOf(join(imagesDir, 'saree-texture-light.avif'));
 const galleryBytes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   .reduce((total, number) => total + sizeOf(join(imagesDir, `saree-${number}.avif`)), 0);

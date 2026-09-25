@@ -195,6 +195,9 @@ body{font-family:'Lora',serif}.brand,.wordmark,.manifesto h2,.contact h2,.call s
 .shop-product__offer small{font-size:9px;font-weight:800;letter-spacing:0;text-transform:uppercase;color:#efc77c}
 .shop-product__offer del{font-size:15px;font-weight:800;color:#fff8e9;text-decoration-thickness:2px;text-decoration-color:#efc77c}
 .shop-product__offer strong{font-size:24px;line-height:1;color:#fff;font-weight:900;letter-spacing:0}
+.shop-product__meta .shop-product__listed-price{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:5px;padding:11px 12px;border:1px solid rgba(104,31,49,.22);border-radius:4px;background:#fff5e8;color:#681f31;box-shadow:0 10px 24px rgba(104,31,49,.08)}
+.shop-product__listed-price small{font-size:9px;font-weight:800;letter-spacing:0;text-transform:uppercase;color:#8f5235}
+.shop-product__listed-price strong{font-size:24px;line-height:1;color:#681f31;font-weight:900;letter-spacing:0}
 .shop-product__body>a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:17px;border-top:1px solid rgba(109,64,28,.16);font-size:10px;font-weight:800;letter-spacing:0;text-transform:uppercase;color:#681f31}
 
 @media(max-width:1120px){.shop-showcase{min-height:650px}.shop-collection-index__head{align-items:flex-start;flex-direction:column}.shop-filter-bar{width:100%;justify-content:space-between}.shop-collection-grid,.shop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -77,8 +77,8 @@ const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).
   .map(match => match[1]);
 const categoriesSource = mainSource.slice(categoriesStart, categoriesEnd);
 
-if (categoryImageNames.length !== 19) {
-  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 19`);
+if (categoryImageNames.length !== 25) {
+  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 25`);
 }
 for (const imageName of categoryImageNames) validateJpeg(imageName);
 if (!categoriesSource.includes("name: 'Kadhi Cotton Sarees Type 2'")) {
@@ -92,6 +92,24 @@ if (!categoriesSource.includes('name: "Pure Plain Cotton Saree\'s"')) {
 }
 if (!categoriesSource.includes('name: "tissue pure Plain Cotton Saree\'s"')) {
   failures.push("tissue pure Plain Cotton Saree's is missing from shop categories");
+}
+if (!categoriesSource.includes('name: "Semi Katan Soft Silk Saree\'s"')) {
+  failures.push("Semi Katan Soft Silk Saree's is missing from shop categories");
+}
+if (!categoriesSource.includes('name: "Semi Katan Half And Half Soft Silk Saree\'s"')) {
+  failures.push("Semi Katan Half And Half Soft Silk Saree's is missing from shop categories");
+}
+if (!categoriesSource.includes('name: "Kahadi Cotton Saree\'s & Kalamkari Blouse"')) {
+  failures.push("Kahadi Cotton Saree's & Kalamkari Blouse is missing from shop categories");
+}
+if (!categoriesSource.includes("name: 'Kubra Tissue Soft Silk Sarees'")) {
+  failures.push('Kubra Tissue Soft Silk Sarees is missing from shop categories');
+}
+if (!categoriesSource.includes('name: "Meena Soft Silk Saree\'s"')) {
+  failures.push("Meena Soft Silk Saree's is missing from shop categories");
+}
+if (!categoriesSource.includes('name: "Tissue Soft Silk Saree\'s"')) {
+  failures.push("Tissue Soft Silk Saree's is missing from shop categories");
 }
 
 const productsStart = mainSource.indexOf('const shopProducts');
@@ -115,6 +133,24 @@ if (!productsSource.includes('category: "Pure Plain Cotton Saree\'s"')) {
 if (!productsSource.includes('category: "tissue pure Plain Cotton Saree\'s"')) {
   failures.push("tissue pure Plain Cotton Saree's products are missing");
 }
+if (!productsSource.includes('category: "Semi Katan Soft Silk Saree\'s"')) {
+  failures.push("Semi Katan Soft Silk Saree's products are missing");
+}
+if (!productsSource.includes('category: "Semi Katan Half And Half Soft Silk Saree\'s"')) {
+  failures.push("Semi Katan Half And Half Soft Silk Saree's products are missing");
+}
+if (!productsSource.includes('category: "Kahadi Cotton Saree\'s & Kalamkari Blouse"')) {
+  failures.push("Kahadi Cotton Saree's & Kalamkari Blouse products are missing");
+}
+if (!productsSource.includes("category: 'Kubra Tissue Soft Silk Sarees'")) {
+  failures.push('Kubra Tissue Soft Silk Sarees products are missing');
+}
+if (!productsSource.includes('category: "Meena Soft Silk Saree\'s"')) {
+  failures.push("Meena Soft Silk Saree's products are missing");
+}
+if (!productsSource.includes('category: "Tissue Soft Silk Saree\'s"')) {
+  failures.push("Tissue Soft Silk Saree's products are missing");
+}
 if (productsSource.includes('/images/shop-tissue-printed-soft-cotton-01.jpg')) {
   failures.push('Tissue Printed Soft Cotton Sarees still references removed image 01');
 }
@@ -127,12 +163,18 @@ const categoryRequirements = [
   ['Maheshwari Cotton Sarees', /^shop-maheshwari-cotton-\d{2}\.jpg$/, 23],
   ['Palaku Design Sarees', /^shop-palaku-\d{2}\.jpg$/, 15],
   ['Kadhi Cotton Sarees', /^shop-kadhi-\d{2}\.jpg$/, 27],
+  ["Kahadi Cotton Saree's & Kalamkari Blouse", /^shop-kahadi-kalamkari-\d{2}\.jpg$/, 15],
   ['120 Count Mul Mul Cotton Sarees', /^shop-mulmul-\d{2}\.jpg$/, 25],
   ['Rainbow Mul Mul Cotton Sarees', /^shop-rainbow-mulmul-\d{2}\.jpg$/, 5],
   ['Soft Silk Sarees', /^shop-softsilk-\d{2}\.jpg$/, 21],
+  ["Meena Soft Silk Saree's", /^shop-meena-soft-silk-\d{2}\.jpg$/, 15],
   ['Arani Soft Silk Sarees', /^shop-arani-soft-silk-\d{2}\.jpg$/, 6],
+  ["Semi Katan Soft Silk Saree's", /^shop-semi-katan-soft-silk-\d{2}-[abc]\.jpg$/, 15],
+  ["Semi Katan Half And Half Soft Silk Saree's", /^shop-semi-katan-half-and-half-\d{2}-[ab]\.jpg$/, 2],
   ['Fancy Silk Sarees', /^shop-fancy-silk-\d{2}\.jpg$/, 36],
   ['Tissue Printed Soft Cotton Sarees', /^shop-tissue-printed-soft-cotton-\d{2}\.jpg$/, 18],
+  ['Kubra Tissue Soft Silk Sarees', /^shop-kubra-tissue-soft-silk-\d{2}\.jpg$/, 6],
+  ["Tissue Soft Silk Saree's", /^shop-tissue-soft-silk-\d{2}\.jpg$/, 18],
   ['Sunflower Khadi Cotton Sarees', /^shop-sunflower-khadi-\d{2}\.jpg$/, 12],
   ['Kerala Hand Printed Cotton Sareess', /^shop-kerala-cotton-\d{2}\.jpg$/, 11],
   ['Checked Cotton Sarees', /^shop-checked-cotton-\d{2}-[ab]\.jpg$/, 6],
@@ -165,4 +207,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Shop image compatibility passed: all 19 category thumbnails and 277 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
+console.log(`Shop image compatibility passed: all 25 category thumbnails and 348 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
