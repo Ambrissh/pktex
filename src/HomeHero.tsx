@@ -62,7 +62,7 @@ export function Hero() {
     <div className="hero__silk-motion" aria-hidden="true"><span/><span/></div>
     <div className="hero__zari-border" aria-hidden="true" />
     <div className="hero__content">
-      <p className="hero__kicker intro intro--1">Handloom heritage <i/> Elampillai</p>
+      <p className="hero__kicker intro intro--1">Handloom heritage Elampillai</p>
       <h1 className="wordmark" aria-label="PK TEX"><span className="intro intro--2">PK</span><em className="intro intro--3">TEX</em></h1>
       <div className="hero__origin intro intro--4">
         <p className="hero__place">Elampillai</p>
