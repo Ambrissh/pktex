@@ -1,17 +1,15 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
-import { Heart, MapPin, Menu, Search, ShoppingBag, UserRound, X } from 'lucide-react';
-import './home-storefront.css';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 
-const navItems = [
-  ['Home', '#home'], ['About Us', '#our-story'], ['Shop Sarees', '#shop'], ['Soft Silk Sarees', '#shop'], ['Cotton Sarees', '#shop'], ['Wedding Sarees', '#shop'], ['Contact Us', '#contact'],
-];
+const navItems = [['Home', '#home'], ['Shop', '#shop'], ['Reviews', '#reviews']];
 
 export function Header({ route }: { route: string }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const onLightPage = route.startsWith('#shop') || route.startsWith('#reviews');
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -24,42 +22,54 @@ export function Header({ route }: { route: string }) {
 
   useEffect(() => setOpen(false), [route]);
 
-  return <header className={`storefront-header ${scrolled ? 'storefront-header--scrolled' : ''} ${open ? 'storefront-header--open' : ''}`}>
-    <div className="storefront-topbar">
-      <p><MapPin size={13} fill="currentColor"/> Elampillai, Tamil Nadu 637502</p>
-      <p className="storefront-topbar__contact">+91 99945 36855 <i/> info@pktex.in</p>
-      <div><a href="#shop">Track Order</a><a href="#contact">Contact Us</a></div>
-    </div>
-    <div className="storefront-mainbar">
-      <a className="storefront-logo" href="#home" aria-label="PK TEX home"><img src="/pktex-logo.jpg" alt="PK TEX" width="1078" height="1078" decoding="async"/></a>
-      <a className="storefront-search" href="#shop"><Search size={18}/><span>Search for sarees</span></a>
-      <div className="storefront-tools" aria-label="Shop tools"><a href="#contact" aria-label="Account"><UserRound size={20}/></a><a href="#shop" aria-label="Wishlist"><Heart size={20}/></a><a href="#shop" aria-label="Shopping bag"><ShoppingBag size={20}/><sup>0</sup></a></div>
-      <button className="storefront-menu" onClick={() => setOpen(value => !value)} aria-controls="storefront-navigation" aria-expanded={open} aria-label={open ? 'Close navigation' : 'Open navigation'}>{open ? <X/> : <Menu/>}</button>
-    </div>
-    <nav className="storefront-nav" id="storefront-navigation" aria-label="Main navigation">
-      {navItems.map(([label, href], index) => <a key={`${label}-${href}`} href={href} className={route.startsWith(href) ? 'is-current' : undefined} style={{ '--i': index } as CSSProperties} onClick={() => setOpen(false)}>{label}</a>)}
+  return <header className={`header ${onLightPage ? 'header--light-page' : ''} ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--menu-open' : ''}`}>
+    <a className="brand" href="#home" aria-label="PK TEX home" onClick={() => setOpen(false)}><span>PK</span><i/><span>TEX</span></a>
+    <nav className={open ? 'nav nav--open' : 'nav'} id="main-navigation" aria-label="Main navigation">
+      {navItems.map(([label, href], index) => <a key={href} href={href} style={{ '--i': index } as CSSProperties} onClick={() => setOpen(false)}>{label}</a>)}
+      <a className="nav__visit" href="#contact" style={{ '--i': navItems.length } as CSSProperties} onClick={() => setOpen(false)}>Contact Us <ArrowUpRight size={15}/></a>
     </nav>
+    <button className="menu" onClick={() => setOpen(value => !value)} aria-controls="main-navigation" aria-expanded={open} aria-label="Toggle navigation">{open ? <X/> : <Menu/>}</button>
   </header>;
 }
 
 export function Hero() {
-  return <section className="storefront-hero" id="home" aria-labelledby="storefront-title">
-    <div className="storefront-hero__texture" aria-hidden="true"/>
-    <div className="storefront-hero__copy">
-      <p className="storefront-hero__eyebrow">ELAMPILLAI’S SAREE HOUSE</p>
-      <h1 id="storefront-title"><span>PK</span> TEX</h1>
-      <p className="storefront-hero__subtitle">SAREES</p>
-      <p className="storefront-hero__tagline">Grace in every weave, elegance in every drape.</p>
-      <a className="storefront-hero__cta" href="#shop">SHOP THE COLLECTION</a>
-    </div>
-    <figure className="storefront-hero__portrait">
-      <picture>
-        <source srcSet="/images/hero-cultural.avif" type="image/avif" />
-        <img src="/images/hero-cultural.jpg" alt="A woman in a traditional silk saree" width="1672" height="941" loading="eager" fetchPriority="high" decoding="async" />
-      </picture>
-    </figure>
-    <div className="storefront-hero__promise" aria-label="PK TEX service promises">
-      <span>Premium sarees</span><i/><span>Timeless tradition</span><i/><span>Trusted quality</span>
+  const [liteMotion, setLiteMotion] = useState(true);
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const clientNavigator = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
+    const updateMotionMode = () => {
+      const limitedCpu = clientNavigator.hardwareConcurrency > 0 && clientNavigator.hardwareConcurrency <= 4;
+      const limitedMemory = typeof clientNavigator.deviceMemory === 'number' && clientNavigator.deviceMemory <= 4;
+      setLiteMotion(motionPreference.matches || limitedCpu || limitedMemory || Boolean(clientNavigator.connection?.saveData));
+    };
+
+    updateMotionMode();
+    if (motionPreference.addEventListener) motionPreference.addEventListener('change', updateMotionMode);
+    else motionPreference.addListener(updateMotionMode);
+    return () => {
+      if (motionPreference.removeEventListener) motionPreference.removeEventListener('change', updateMotionMode);
+      else motionPreference.removeListener(updateMotionMode);
+    };
+  }, []);
+
+  return <section className={`hero ${liteMotion ? 'hero--lite-motion' : ''}`} id="home">
+    <picture className="hero__portrait">
+      <source srcSet="/images/hero-cultural.avif" type="image/avif" />
+      <img src="/images/hero-cultural.jpg" alt="A smiling Tamil woman in a crimson silk saree beside brass lamps and folded sarees, with a Thanjavur temple tower in warm evening light" width="1672" height="941" loading="eager" fetchPriority="high" decoding="async" />
+    </picture>
+    <div className="hero__veil" aria-hidden="true" />
+    <div className="hero__silk-motion" aria-hidden="true"><span/><span/></div>
+    <div className="hero__zari-border" aria-hidden="true" />
+    <div className="hero__content">
+      <p className="hero__kicker intro intro--1">Handloom heritage <i/> Elampillai</p>
+      <h1 className="wordmark" aria-label="PK TEX"><span className="intro intro--2">PK</span><em className="intro intro--3">TEX</em></h1>
+      <div className="hero__origin intro intro--4">
+        <p className="hero__place">Elampillai</p>
+        <p className="hero__since">Since 1998</p>
+      </div>
+      <p className="hero__story intro intro--5">Woven by tradition.<br/>Made for today.</p>
+      <a className="hero__cta intro intro--5" href="#shop">Shop Sarees <ArrowUpRight size={18}/></a>
     </div>
   </section>;
 }

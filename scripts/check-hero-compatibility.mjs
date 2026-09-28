@@ -1,9 +1,8 @@
 import { readFile } from 'node:fs/promises';
 
-const [main, styles, storefrontStyles] = await Promise.all([
+const [main, styles] = await Promise.all([
   readFile(new URL('../src/HomeHero.tsx', import.meta.url), 'utf8'),
   readFile(new URL('../src/styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../src/home-storefront.css', import.meta.url), 'utf8'),
 ]);
 
 const heroStart = main.indexOf('function Hero()');
@@ -12,7 +11,7 @@ const hero = main.slice(heroStart, heroEnd);
 
 const failures = [];
 const requirePattern = (pattern, message) => {
-  if (!pattern.test(hero + '\n' + styles + '\n' + storefrontStyles)) failures.push(message);
+  if (!pattern.test(hero + '\n' + styles)) failures.push(message);
 };
 
 if (/addEventListener\(['"]scroll['"]/.test(hero)) {
@@ -27,14 +26,13 @@ if (/\.hero__image\s*\{[^}]*background-image[^}]*url\(/s.test(styles)) {
   failures.push('Hero artwork must use a real image element with a browser fallback.');
 }
 
-requirePattern(/className="storefront-hero__portrait"/, 'Hero needs the reference-style portrait panel.');
+requirePattern(/<picture className="hero__portrait"/, 'Hero needs a responsive portrait.');
 requirePattern(/hero-cultural\.avif/, 'Hero needs an optimized AVIF source.');
 requirePattern(/hero-cultural\.jpg/, 'Hero needs a JPEG fallback for older Firefox.');
-requirePattern(/storefront-topbar/, 'Home needs the reference-style information bar.');
-requirePattern(/storefront-nav/, 'Home needs the reference-style category navigation.');
+requirePattern(/hero--lite-motion/, 'Hero needs a low-power animation mode.');
 requirePattern(/prefers-reduced-motion:\s*reduce/, 'Hero motion needs a reduced-motion fallback.');
-requirePattern(/height:\s*calc\(100svh - 170px\)/, 'Hero needs a full-screen storefront layout.');
-requirePattern(/Cormorant Garamond/, 'Hero needs the editorial serif display font.');
+requirePattern(/height:\s*100vh;\s*height:\s*100svh/, 'Hero needs a 100vh fallback for older Firefox.');
+requirePattern(/Cormorant Garamond/, 'Hero needs the restored editorial serif font.');
 
 if (failures.length) {
   console.error(`Hero compatibility failed:\n- ${failures.join('\n- ')}`);
