@@ -15,8 +15,10 @@ function sizeOf(path) {
   return statSync(path).size;
 }
 
-const heroBytes = sizeOf(join(imagesDir, 'hero-editorial.avif'));
-const heroFallbackBytes = sizeOf(join(imagesDir, 'hero-editorial.jpg'));
+const heroBytes = sizeOf(join(imagesDir, 'hero-campaign-bright.avif'));
+const heroFallbackBytes = sizeOf(join(imagesDir, 'hero-campaign-bright.jpg'));
+const heroFabricBytes = sizeOf(join(imagesDir, 'hero-hanging-silk.avif'));
+const heroFabricFallbackBytes = sizeOf(join(imagesDir, 'hero-hanging-silk.jpg'));
 const textureBytes = sizeOf(join(imagesDir, 'saree-texture-light.avif'));
 const galleryBytes = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   .reduce((total, number) => total + sizeOf(join(imagesDir, `saree-${number}.avif`)), 0);
@@ -35,6 +37,8 @@ const largestCompatibilityJpeg = Math.max(...shopCompatibilityJpegs.map(name => 
 
 if (heroBytes > 350 * 1024) failures.push(`hero image is ${(heroBytes / 1048576).toFixed(2)} MB; budget is 0.35 MB`);
 if (heroFallbackBytes > 650 * 1024) failures.push(`hero JPEG fallback is ${(heroFallbackBytes / 1048576).toFixed(2)} MB; budget is 0.65 MB`);
+if (heroFabricBytes > 350 * 1024) failures.push(`hero fabric is ${(heroFabricBytes / 1048576).toFixed(2)} MB; budget is 0.35 MB`);
+if (heroFabricFallbackBytes > 650 * 1024) failures.push(`hero fabric JPEG fallback is ${(heroFabricFallbackBytes / 1048576).toFixed(2)} MB; budget is 0.65 MB`);
 if (textureBytes > 350 * 1024) failures.push(`about texture is ${(textureBytes / 1048576).toFixed(2)} MB; budget is 0.35 MB`);
 if (galleryBytes > 1800 * 1024) failures.push(`home gallery is ${(galleryBytes / 1048576).toFixed(2)} MB; budget is 1.80 MB`);
 if (chromeGalleryBytes > 2 * 1048576) failures.push(`Chrome home gallery is ${(chromeGalleryBytes / 1048576).toFixed(2)} MB; budget is 2.00 MB`);
@@ -66,4 +70,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Performance budget passed: hero AVIF ${(heroBytes / 1024).toFixed(0)} KB, hero JPEG ${(heroFallbackBytes / 1024).toFixed(0)} KB, Chrome gallery ${(chromeGalleryBytes / 1024).toFixed(0)} KB, Chrome categories ${(chromeCategoryBytes / 1024).toFixed(0)} KB, catalogue JPEGs ${(shopCompatibilityJpegBytes / 1048576).toFixed(1)} MB, shop catalogue ${(shopBytes / 1048576).toFixed(1)} MB.`);
+console.log(`Performance budget passed: hero portrait AVIF ${(heroBytes / 1024).toFixed(0)} KB, hero fabric AVIF ${(heroFabricBytes / 1024).toFixed(0)} KB, Chrome gallery ${(chromeGalleryBytes / 1024).toFixed(0)} KB, Chrome categories ${(chromeCategoryBytes / 1024).toFixed(0)} KB, catalogue JPEGs ${(shopCompatibilityJpegBytes / 1048576).toFixed(1)} MB, shop catalogue ${(shopBytes / 1048576).toFixed(1)} MB.`);

@@ -1,0 +1,7 @@
+Generated with the built-in imagegen tool for the PK TEX curtain reveal.
+
+Source: assets/hero-hanging-silk-source.png
+Web assets: public/images/hero-hanging-silk.avif and public/images/hero-hanging-silk.jpg
+
+Final prompt:
+Use case: photorealistic-natural. Create a photographic texture asset for a premium Indian silk saree website's animated falling curtain. Entire image is a continuous hanging sheet of luminous ruby red, vermilion and warm burgundy Kanchipuram silk, loosely gathered into deep vertical folds from top to bottom. Luxurious real silk sheen, detailed but restrained gold zari floral buttas across the silk, a beautiful wide woven antique gold zari border across the bottom 12 percent. Long irregular vertical folds with convincing depth, slight undulation, soft bright studio side light, luminous saturated red midtones and warm gold highlights, detailed textile weave. Straight on camera, no visible room, no curtain rod, no floor, no people, no text, no logo, no vignette. Fabric fills all four image edges. Landscape composition 3:2; evenly distributed folds across whole width, suitable for cropping center to portrait. This is only the fabric texture, no UI. Photorealistic premium textile campaign quality, preserve bright rich material colours.

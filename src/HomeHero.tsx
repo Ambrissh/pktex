@@ -1,5 +1,6 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { SilkCurtain } from './SilkCurtain';
 
 const navItems = [['Home', '#home'], ['Shop', '#shop'], ['Reviews', '#reviews']];
 
@@ -17,13 +18,24 @@ export function Header({ route }: { route: string }) {
 
   useEffect(() => {
     document.body.classList.toggle('navigation-open', open);
-    return () => document.body.classList.remove('navigation-open');
+    const desktop = window.matchMedia('(min-width: 761px)');
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
+    desktop.addEventListener?.('change', closeOnDesktop);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.classList.remove('navigation-open');
+      desktop.removeEventListener?.('change', closeOnDesktop);
+      window.removeEventListener('keydown', closeOnEscape);
+    };
   }, [open]);
 
   useEffect(() => setOpen(false), [route]);
 
   return <header className={`header ${onLightPage ? 'header--light-page' : ''} ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--menu-open' : ''}`}>
-    <a className="brand" href="#home" aria-label="PK TEX home" onClick={() => setOpen(false)}><span>PK</span><i/><span>TEX</span></a>
+    <a className="brand brand--logo" href="#home" aria-label="PK TEX home" onClick={() => setOpen(false)}>
+      <span className="brand__mark"><img src="/pktex-logo.jpg" alt="" width="1078" height="1078" /></span>
+    </a>
     <nav className={open ? 'nav nav--open' : 'nav'} id="main-navigation" aria-label="Main navigation">
       {navItems.map(([label, href], index) => <a key={href} href={href} style={{ '--i': index } as CSSProperties} onClick={() => setOpen(false)}>{label}</a>)}
       <a className="nav__visit" href="#contact" style={{ '--i': navItems.length } as CSSProperties} onClick={() => setOpen(false)}>Contact Us <ArrowUpRight size={15}/></a>
@@ -33,43 +45,36 @@ export function Header({ route }: { route: string }) {
 }
 
 export function Hero() {
-  const [liteMotion, setLiteMotion] = useState(true);
+  const portrait = useRef<HTMLImageElement>(null);
+  const [phase, setPhase] = useState<'pending' | 'revealing' | 'complete'>(() =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches || (window.location.hash && window.location.hash !== '#home') ? 'complete' : 'pending');
+  const reveal = useCallback(() => setPhase(current => current === 'complete' ? current : 'revealing'), []);
+  const complete = useCallback(() => setPhase('complete'), []);
 
   useEffect(() => {
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const clientNavigator = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
-    const updateMotionMode = () => {
-      const limitedCpu = clientNavigator.hardwareConcurrency > 0 && clientNavigator.hardwareConcurrency <= 4;
-      const limitedMemory = typeof clientNavigator.deviceMemory === 'number' && clientNavigator.deviceMemory <= 4;
-      setLiteMotion(motionPreference.matches || limitedCpu || limitedMemory || Boolean(clientNavigator.connection?.saveData));
-    };
+    document.body.classList.toggle('hero-intro-pending', phase === 'pending');
+    return () => document.body.classList.remove('hero-intro-pending');
+  }, [phase]);
 
-    updateMotionMode();
-    if (motionPreference.addEventListener) motionPreference.addEventListener('change', updateMotionMode);
-    else motionPreference.addListener(updateMotionMode);
-    return () => {
-      if (motionPreference.removeEventListener) motionPreference.removeEventListener('change', updateMotionMode);
-      else motionPreference.removeListener(updateMotionMode);
-    };
-  }, []);
-
-  return <section className={`hero ${liteMotion ? 'hero--lite-motion' : ''}`} id="home">
+  return <><section className={`hero hero--${phase}`} id="home">
+    <div className="hero__backdrop" aria-hidden="true" />
     <picture className="hero__portrait">
-      <source srcSet="/images/hero-cultural.avif" type="image/avif" />
-      <img src="/images/hero-cultural.jpg" alt="A smiling Tamil woman in a crimson silk saree beside brass lamps and folded sarees, with a Thanjavur temple tower in warm evening light" width="1672" height="941" loading="eager" fetchPriority="high" decoding="async" />
+      <source srcSet="/images/hero-campaign-bright.avif" type="image/avif" />
+      <img ref={portrait} src="/images/hero-campaign-bright.jpg" alt="Two women in vibrant red and emerald silk sarees with gold zari in a sunlit Indian courtyard" width="1800" height="794" loading="eager" fetchPriority="high" decoding="async" />
     </picture>
     <div className="hero__veil" aria-hidden="true" />
-    <div className="hero__silk-motion" aria-hidden="true"><span/><span/></div>
     <div className="hero__zari-border" aria-hidden="true" />
     <div className="hero__content">
-      <p className="hero__kicker intro intro--1">Handloom heritage Elampillai</p>
-      <h1 className="wordmark" aria-label="PK TEX"><span className="intro intro--2">PK</span><em className="intro intro--3">TEX</em></h1>
-      <div className="hero__origin intro intro--4">
-        <p className="hero__place">Elampillai</p>
-        <p className="hero__since">Since 1998</p>
+      <p className="hero__kicker intro intro--1">PK TEX <span>ELAMPILLAI SILKS</span></p>
+      <h1 className="hero__headline intro intro--2">Silk in<br/><em>full colour.</em></h1>
+      <p className="hero__story intro intro--3">Vivid silk sarees, intricate gold zari and the craft of Elampillai in every drape.</p>
+      <div className="hero__actions intro intro--4">
+        <a className="hero__cta" href="#shop">Explore sarees <ArrowUpRight size={18}/></a>
+        <a className="hero__secondary" href="#our-story">Our story <span aria-hidden="true">↗</span></a>
       </div>
-      <p className="hero__story intro intro--5">Woven by tradition.<br/>Made for today.</p>
-      <a className="hero__cta intro intro--5" href="#shop">Shop Sarees <ArrowUpRight size={18}/></a>
+      <p className="hero__provenance intro intro--5">Woven in Elampillai <span>Since 1998</span></p>
     </div>
-  </section>;
+  </section>
+    {phase !== 'complete' && <SilkCurtain heroImage={portrait} onReveal={reveal} onComplete={complete} />}
+  </>;
 }

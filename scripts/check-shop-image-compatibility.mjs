@@ -54,6 +54,21 @@ function validateJpeg(name) {
   }
 }
 
+function validateCategoryImage(name) {
+  if (name.endsWith('.jpg')) return validateJpeg(name);
+
+  const filePath = join(imagesDir, name);
+  if (!existsSync(filePath)) {
+    failures.push(`missing AVIF category image: ${name}`);
+  } else {
+    const bytes = readFileSync(filePath);
+    if (bytes.length < 8 * 1024 || bytes.toString('ascii', 4, 8) !== 'ftyp') {
+      failures.push(`invalid AVIF category image: ${name}`);
+    }
+  }
+  validateJpeg(name.replace(/\.avif$/, '.jpg'));
+}
+
 const shopSources = readdirSync(imagesDir)
   .filter(name => name.startsWith('shop-') && extname(name).toLowerCase() === '.jpeg' && !name.includes(' 2.'));
 const shopJpegs = readdirSync(imagesDir)
@@ -73,18 +88,18 @@ for (const jpgName of shopJpegs) validateJpeg(jpgName);
 
 const categoriesStart = mainSource.indexOf('const shopCategories');
 const categoriesEnd = mainSource.indexOf('\nconst kalyaniColors', categoriesStart);
-const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).matchAll(/image:\s*'\/images\/([^']+\.jpg)'/g)]
+const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).matchAll(/image:\s*'\/images\/([^']+\.(?:avif|jpg))'/g)]
   .map(match => match[1]);
 const categoriesSource = mainSource.slice(categoriesStart, categoriesEnd);
 
 if (categoryImageNames.length !== 26) {
   failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 26`);
 }
-for (const imageName of categoryImageNames) validateJpeg(imageName);
+for (const imageName of categoryImageNames) validateCategoryImage(imageName);
 if (!categoriesSource.includes("name: 'Kadhi Cotton Sarees Type 2'")) {
   failures.push('Kadhi Cotton Sarees Type 2 is missing from shop categories');
 }
-if (!categoriesSource.includes("image: '/images/shop-tissue-printed-soft-cotton-10.jpg'")) {
+if (!/image: '\/images\/shop-tissue-printed-soft-cotton-10\.(?:avif|jpg)'/.test(categoriesSource)) {
   failures.push('Tissue Printed Soft Cotton Sarees category thumbnail must use the corrected image 10');
 }
 if (!categoriesSource.includes('name: "Pure Plain Cotton Saree\'s"')) {
@@ -213,4 +228,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Shop image compatibility passed: all 26 category thumbnails and 348 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
+console.log(`Shop image compatibility passed: all 26 category thumbnails have readable sources and JPEG fallbacks; 348 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);

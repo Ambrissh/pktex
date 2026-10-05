@@ -5,13 +5,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ExpandingSareeAboutSection from './ExpandingSareeAboutSection';
 import './styles.css';
+import './hero.css';
 import { Header, Hero } from './HomeHero';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const customerPhone = '9994536855';
-const customerPhoneDisplay = '+91 99945 36855';
+const customerPhone = '7010179322';
+const customerPhoneDisplay = '+91 70101 79322';
 const whatsAppOrderLink = `https://wa.me/91${customerPhone}?text=Hi%20PK%20TEX%2C%20I%20want%20to%20place%20an%20order.`;
+const directionsLink = `https://maps.google.com/?q=${encodeURIComponent('148-C, Santhaipettai, Kadayampatty, Elampillai (via), Sankari (Tk), Salem Dt - 637 502, Tamil Nadu')}`;
 
 function useReveal(route: string) {
   useEffect(() => {
@@ -130,7 +132,7 @@ function Collection() {
         const imageNumber = i === 4 ? 3 : i === 2 ? 5 : i + 1;
         const imageSrc = `/images/saree-${imageNumber}-chrome.jpg`;
         return <a className={`collection__tile ${i === 4 ? 'collection__tile--featured' : ''}`} data-index={i} href="#shop" key={i} aria-label={`View saree collection ${i + 1} in the shop`}>
-        <img src={imageSrc} alt={`PK TEX saree ${imageNumber}`} loading="eager" decoding="async" width="1280" height="853"/>
+        <img src={imageSrc} alt={`PK TEX saree ${imageNumber}`} loading="lazy" decoding="async" fetchPriority="low" width="1280" height="853"/>
         <span className="collection__hover">Shop now <ArrowUpRight size={16}/></span>
       </a>})}
     </div>
@@ -170,43 +172,43 @@ const shopCategories = [
   {
     name: 'Swami & Amman Temple Sarees',
     description: 'Six-meter devotional sarees in Swami and Amman designs.',
-    image: '/images/shop-swami-gold-devotional.jpg',
+    image: '/images/shop-swami-gold-devotional.avif',
     count: 5,
   },
   {
     name: 'Kalyani Cotton Sarees',
     description: 'Kanchipuram-inspired cotton sarees with temple borders, breathable drape, and rich traditional colour pairings.',
-    image: '/images/shop-kalyani-01-a-chrome.jpg',
+    image: '/images/shop-kalyani-01-a.avif',
     count: 21,
   },
   {
     name: 'Korvai Checked Cotton Sarees',
     description: 'Checked cotton sarees with bold korvai contrast borders, gold zari bands, and bright festive colour pairings.',
-    image: '/images/shop-korvai-checked-cotton-01-chrome.jpg',
+    image: '/images/shop-korvai-checked-cotton-01.avif',
     count: 11,
   },
   {
     name: 'Maheshwari Cotton Sarees',
     description: 'Offer-ready Maheshwari cotton sarees with woven texture, small zari buttas, tassel edges, and contrast colour pairings.',
-    image: '/images/shop-maheshwari-cotton-01-chrome.jpg',
+    image: '/images/shop-maheshwari-cotton-01.avif',
     count: 23,
   },
   {
     name: 'Palaku Design Sarees',
     description: 'Single-view folded sarees with ornate palaku-inspired motifs, silver zari highlights, and rich festive colours.',
-    image: '/images/shop-palaku-02-chrome.jpg',
+    image: '/images/shop-palaku-02.avif',
     count: 15,
   },
   {
     name: 'Kadhi Cotton Sarees',
     description: 'Soft khadi cotton drapes with floral handwork, daisy and embroidered flower motifs, fringe detailing, and fresh everyday boutique colours.',
-    image: '/images/shop-kadhi-01-chrome.jpg',
+    image: '/images/shop-kadhi-01.avif',
     count: 12,
   },
   {
     name: 'Kadhi Cotton Sarees Type 2',
     description: 'A second kadhi cotton edit with embroidered florals, tassel details, and deeper boutique-ready colourways.',
-    image: '/images/shop-kadhi-13.jpg',
+    image: '/images/shop-kadhi-13.avif',
     count: 15,
   },
   {
@@ -218,7 +220,7 @@ const shopCategories = [
   {
     name: 'Tissue Printed Soft Cotton Sarees',
     description: 'Lightweight soft cotton sarees with tissue-inspired shimmer, delicate linear prints, and rich contrast pallus.',
-    image: '/images/shop-tissue-printed-soft-cotton-10.jpg',
+    image: '/images/shop-tissue-printed-soft-cotton-10.avif',
     count: 17,
   },
   {
@@ -236,19 +238,19 @@ const shopCategories = [
   {
     name: '120 Count Mul Mul Cotton Sarees',
     description: 'Weightless 120-count mul mul cotton sarees with airy stripes, soft tassels, and borderless everyday elegance.',
-    image: '/images/shop-mulmul-01-chrome.jpg',
+    image: '/images/shop-mulmul-01.avif',
     count: 25,
   },
   {
     name: 'Rainbow Mul Mul Cotton Sarees',
     description: 'Soft rainbow-check mul mul cotton sarees with playful tassels, contrast blouse pieces, and airy summer colourways.',
-    image: '/images/shop-rainbow-mulmul-01-chrome.jpg',
+    image: '/images/shop-rainbow-mulmul-01.avif',
     count: 5,
   },
   {
     name: 'Soft Silk Sarees',
     description: 'Premium soft silk sarees with luminous zari motifs, rich contrast pallus, and festive boutique colour pairings.',
-    image: '/images/shop-softsilk-01-chrome.jpg',
+    image: '/images/shop-softsilk-01.avif',
     count: 21,
   },
   {
@@ -260,7 +262,7 @@ const shopCategories = [
   {
     name: 'Arani Soft Silk Sarees',
     description: 'Arani soft silk sarees with neat pleated presentation, fine zari line work, contrast pallus, and smooth festive colours.',
-    image: '/images/shop-arani-soft-silk-01-chrome.jpg',
+    image: '/images/shop-arani-soft-silk-01.avif',
     count: 6,
   },
   {
@@ -278,49 +280,49 @@ const shopCategories = [
   {
     name: 'Fancy Silk Sarees',
     description: 'Shopping-ready fancy silk sarees with geometric embroidery, peacock-inspired motifs, glossy borders, and rich boutique colours.',
-    image: '/images/shop-fancy-silk-01-chrome.jpg',
+    image: '/images/shop-fancy-silk-01.avif',
     count: 24,
   },
   {
     name: 'Radhika Sarees',
     description: 'Shimmering printed sarees with floral accents, graceful colour combinations, and an elegant festive finish.',
-    image: '/images/shop-fancy-silk-25.jpg',
+    image: '/images/shop-fancy-silk-25.avif',
     count: 12,
   },
   {
     name: 'Sunflower Khadi Cotton Sarees',
     description: 'Fresh khadi cotton sarees with cheerful sunflower motifs, soft tassels, and artisanal studio styling.',
-    image: '/images/shop-sunflower-khadi-01-chrome.jpg',
+    image: '/images/shop-sunflower-khadi-01.avif',
     count: 12,
   },
     {
       name: 'Kerala Hand Printed Cotton Sareess',
       description: 'Onam-ready Kerala cotton sarees in warm ivory tones with temple-inspired borders, festive motifs, and celebration styling.',
-      image: '/images/shop-kerala-cotton-01-chrome.jpg',
+      image: '/images/shop-kerala-cotton-01.avif',
       count: 10,
     },
     {
       name: 'Checked Cotton Sarees',
       description: 'Checked cotton sarees with Kerala-inspired kasavu borders, temple styling, and elegant festive presentation.',
-      image: '/images/shop-checked-cotton-01-a.jpg',
+      image: '/images/shop-checked-cotton-01-a.avif',
       count: 1,
     },
     {
       name: "Pure Plain Cotton Saree's",
       description: 'Pure plain cotton sarees with kasavu-inspired borders, soft drape, and elegant temple presentation.',
-      image: '/images/shop-checked-cotton-02-a.jpg',
+      image: '/images/shop-checked-cotton-02-a.avif',
       count: 1,
     },
     {
       name: "tissue pure Plain Cotton Saree's",
       description: 'Tissue pure plain cotton sarees with subtle sheen, kasavu styling, and graceful festive presentation.',
-      image: '/images/shop-checked-cotton-03-a.jpg',
+      image: '/images/shop-checked-cotton-03-a.avif',
       count: 1,
     },
     {
       name: 'Kerala Checked Cotton Sarees',
       description: 'Checked Kerala cotton sarees in festive ivory and kasavu tones with printed floral borders, Onam styling, and blouse-inclusive 6.25m drapes.',
-      image: '/images/shop-kerala-checked-01-chrome.jpg',
+      image: '/images/shop-kerala-checked-01.avif',
       count: 10,
     },
   ];
@@ -1330,7 +1332,7 @@ function ImageSlider({ product }: { product: ShopProduct }) {
   const hasMultipleImages = product.images.length > 1;
 
   return <div className="shop-slider">
-    <ReliableImage src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} loading="eager" decoding="async" />
+    <ReliableImage src={product.images[active]} alt={`${product.title} ${product.color} view ${active + 1}`} loading="lazy" decoding="async" />
     <div className="shop-slider__veil" />
     {hasMultipleImages && <div className="shop-slider__controls">
       <button onClick={prev} aria-label={`Previous image for ${product.title}`}><ChevronLeft size={17}/></button>
@@ -1383,7 +1385,7 @@ function ShopPage() {
 
   return <section className="shop-page" id="shop">
     <div className="shop-showcase">
-      <ReliableImage className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.jpg" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" />
+      <ReliableImage className="shop-showcase__image" src="/images/shop-rainbow-mulmul-02.avif" alt="Rainbow Mul Mul cotton saree from the PK TEX collection" loading="eager" fetchPriority="high" decoding="async" />
       <div className="shop-showcase__veil" aria-hidden="true" />
       <div className="shop-showcase__copy">
         <p className="shop-eyebrow">PK TEX SHOP</p>
@@ -1427,7 +1429,7 @@ function ShopPage() {
             key={item.name}
           >
             <span className="shop-collection-card__media">
-              <ReliableImage src={item.image} alt={`${item.name} collection`} loading="eager" decoding="async" />
+              <ReliableImage src={item.image} alt={`${item.name} collection`} loading="lazy" decoding="async" />
               <small>{item.count} styles</small>
             </span>
             <span className="shop-collection-card__body">
@@ -1487,8 +1489,8 @@ function ContactSection() {
     </div>
     <div className="contact__card" data-reveal>
       <MapPin size={22}/>
-      <p>Kadyampetty, Elampillai<br/>Edaganasalai, Tamil Nadu 637502</p>
-      <a href="https://maps.google.com/?q=PK+TEX+Elampillai" target="_blank" rel="noreferrer">Get directions <ArrowUpRight size={16}/></a>
+      <p>148-C, Santhaipettai, Kadayampatty<br/>Elampillai (via), Sankari (Tk)<br/>Salem Dt - 637 502, Tamil Nadu</p>
+      <a href={directionsLink} target="_blank" rel="noreferrer">Get directions <ArrowUpRight size={16}/></a>
       <a href={whatsAppOrderLink} target="_blank" rel="noreferrer">Order on WhatsApp <MessageCircle size={16}/></a>
     </div>
     <a className="call" href={`tel:+91${customerPhone}`} data-reveal><small>CALL US</small><span>{customerPhoneDisplay}</span></a>
