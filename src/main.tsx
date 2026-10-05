@@ -279,7 +279,13 @@ const shopCategories = [
     name: 'Fancy Silk Sarees',
     description: 'Shopping-ready fancy silk sarees with geometric embroidery, peacock-inspired motifs, glossy borders, and rich boutique colours.',
     image: '/images/shop-fancy-silk-01-chrome.jpg',
-    count: 36,
+    count: 24,
+  },
+  {
+    name: 'Radhika Sarees',
+    description: 'Shimmering printed sarees with floral accents, graceful colour combinations, and an elegant festive finish.',
+    image: '/images/shop-fancy-silk-25.jpg',
+    count: 12,
   },
   {
     name: 'Sunflower Khadi Cotton Sarees',
@@ -1130,9 +1136,9 @@ const shopProducts = [
   ...fancySilkPrintedColors.map((color, index) => {
     const item = String(index + 25).padStart(2, '0');
     return {
-      id: `fancy-silk-${item}`,
-      title: 'Fancy Silk Saree',
-      category: 'Fancy Silk Sarees',
+      id: `radhika-saree-${item}`,
+      title: 'Radhika Saree',
+      category: 'Radhika Sarees',
       length: '6 meters',
       color,
       price: fancySilkPrintedOfferPrice,

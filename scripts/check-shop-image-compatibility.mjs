@@ -77,8 +77,8 @@ const categoryImageNames = [...mainSource.slice(categoriesStart, categoriesEnd).
   .map(match => match[1]);
 const categoriesSource = mainSource.slice(categoriesStart, categoriesEnd);
 
-if (categoryImageNames.length !== 25) {
-  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 25`);
+if (categoryImageNames.length !== 26) {
+  failures.push(`found ${categoryImageNames.length} category thumbnail references; expected 26`);
 }
 for (const imageName of categoryImageNames) validateJpeg(imageName);
 if (!categoriesSource.includes("name: 'Kadhi Cotton Sarees Type 2'")) {
@@ -104,6 +104,9 @@ if (!categoriesSource.includes('name: "Kahadi Cotton Saree\'s & Kalamkari Blouse
 }
 if (!categoriesSource.includes("name: 'Kubra Tissue Soft Silk Sarees'")) {
   failures.push('Kubra Tissue Soft Silk Sarees is missing from shop categories');
+}
+if (!categoriesSource.includes("name: 'Radhika Sarees'")) {
+  failures.push('Radhika Sarees is missing from shop categories');
 }
 if (!categoriesSource.includes('name: "Meena Soft Silk Saree\'s"')) {
   failures.push("Meena Soft Silk Saree's is missing from shop categories");
@@ -144,6 +147,9 @@ if (!productsSource.includes('category: "Kahadi Cotton Saree\'s & Kalamkari Blou
 }
 if (!productsSource.includes("category: 'Kubra Tissue Soft Silk Sarees'")) {
   failures.push('Kubra Tissue Soft Silk Sarees products are missing');
+}
+if (!productsSource.includes("category: 'Radhika Sarees'")) {
+  failures.push('Radhika Sarees products are missing');
 }
 if (!productsSource.includes('category: "Meena Soft Silk Saree\'s"')) {
   failures.push("Meena Soft Silk Saree's products are missing");
@@ -207,4 +213,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Shop image compatibility passed: all 25 category thumbnails and 348 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
+console.log(`Shop image compatibility passed: all 26 category thumbnails and 348 active gallery images are readable JPEGs; ${shopSources.length} source images have direct JPEG coverage.`);
