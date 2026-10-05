@@ -1110,6 +1110,7 @@ const shopProducts = [
       '/images/shop-semi-katan-soft-silk-07-a.jpg',
       '/images/shop-semi-katan-soft-silk-07-b.jpg',
       '/images/shop-semi-katan-soft-silk-07-c.jpg',
+      '/images/shop-semi-katan-soft-silk-07-d.jpg',
     ],
   },
   {
