@@ -175,7 +175,7 @@ const categoryRequirements = [
   ['Soft Silk Sarees', /^shop-softsilk-\d{2}\.jpg$/, 21],
   ["Meena Soft Silk Saree's", /^shop-meena-soft-silk-\d{2}\.jpg$/, 15],
   ['Arani Soft Silk Sarees', /^shop-arani-soft-silk-\d{2}\.jpg$/, 6],
-  ["Semi Katan Soft Silk Saree's", /^shop-semi-katan-soft-silk-\d{2}-[abc]\.jpg$/, 15],
+  ["Semi Katan Soft Silk Saree's", /^shop-semi-katan-soft-silk-\d{2}-[abcd]\.jpg$/, 16],
   ["Semi Katan Half And Half Soft Silk Saree's", /^shop-semi-katan-half-and-half-\d{2}-[ab]\.jpg$/, 2],
   ['Fancy Silk Sarees', /^shop-fancy-silk-\d{2}\.jpg$/, 36],
   ['Tissue Printed Soft Cotton Sarees', /^shop-tissue-printed-soft-cotton-\d{2}\.jpg$/, 18],

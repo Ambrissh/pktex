@@ -793,6 +793,16 @@ const semiKatanSoftSilkPrices = [
   { sale: 1399, label: 'Price' },
 ];
 
+const semiKatanSoftSilkImageGroups = [
+  { item: '01', color: 'Rani Pink & Gold', priceIndex: 0, imageLetters: ['a', 'b'] },
+  { item: '02', color: 'Royal Blue & Gold', priceIndex: 1, imageLetters: ['a', 'b'] },
+  { item: '03', color: 'Maroon & Gold', priceIndex: 2, imageLetters: ['a', 'b'] },
+  { item: '04', color: 'Royal Purple & Gold', priceIndex: 3, imageLetters: ['a', 'b'] },
+  { item: '05', color: 'Red & Gold', priceIndex: 4, imageLetters: ['a', 'b'] },
+  { item: '06', color: 'Royal Blue & Silver', priceIndex: 5, imageLetters: ['a', 'b'] },
+  { item: '07', color: 'Wine & Silver', priceIndex: 6, imageLetters: ['a', 'b', 'c', 'd'] },
+];
+
 const semiKatanHalfAndHalfPrice = { sale: 1399, label: 'Price' };
 
 const fancyOfferPrice = {
@@ -1045,74 +1055,17 @@ const shopProducts = [
       images: [`/images/shop-arani-soft-silk-${item}.jpg`],
     };
   }),
-  {
-    id: 'semi-katan-soft-silk-01',
-    title: 'Semi Katan Soft Silk Saree',
-    category: "Semi Katan Soft Silk Saree's",
-    length: '6 meters',
-    color: 'Rani Pink & Gold',
-    price: semiKatanSoftSilkPrices[0],
-    images: ['/images/shop-semi-katan-soft-silk-01-a.jpg', '/images/shop-semi-katan-soft-silk-01-b.jpg'],
-  },
-  {
-    id: 'semi-katan-soft-silk-02',
-    title: 'Semi Katan Soft Silk Saree',
-    category: "Semi Katan Soft Silk Saree's",
-    length: '6 meters',
-    color: 'Royal Blue & Gold',
-    price: semiKatanSoftSilkPrices[1],
-    images: ['/images/shop-semi-katan-soft-silk-02-a.jpg', '/images/shop-semi-katan-soft-silk-02-b.jpg'],
-  },
-  {
-    id: 'semi-katan-soft-silk-03',
-    title: 'Semi Katan Soft Silk Saree',
-    category: "Semi Katan Soft Silk Saree's",
-    length: '6 meters',
-    color: 'Maroon & Gold',
-    price: semiKatanSoftSilkPrices[2],
-    images: ['/images/shop-semi-katan-soft-silk-03-a.jpg', '/images/shop-semi-katan-soft-silk-03-b.jpg'],
-  },
-  {
-    id: 'semi-katan-soft-silk-04',
-    title: 'Semi Katan Soft Silk Saree',
-    category: "Semi Katan Soft Silk Saree's",
-    length: '6 meters',
-    color: 'Royal Purple & Gold',
-    price: semiKatanSoftSilkPrices[3],
-    images: ['/images/shop-semi-katan-soft-silk-04-a.jpg', '/images/shop-semi-katan-soft-silk-04-b.jpg'],
-  },
-  {
-    id: 'semi-katan-soft-silk-05',
-    title: 'Semi Katan Soft Silk Saree',
-    category: "Semi Katan Soft Silk Saree's",
-    length: '6 meters',
-    color: 'Red & Gold',
-    price: semiKatanSoftSilkPrices[4],
-    images: ['/images/shop-semi-katan-soft-silk-05-a.jpg', '/images/shop-semi-katan-soft-silk-05-b.jpg'],
-  },
-  {
-    id: 'semi-katan-soft-silk-06',
-    title: 'Semi Katan Soft Silk Saree',
-    category: "Semi Katan Soft Silk Saree's",
-    length: '6 meters',
-    color: 'Royal Blue & Silver',
-    price: semiKatanSoftSilkPrices[5],
-    images: ['/images/shop-semi-katan-soft-silk-06-a.jpg', '/images/shop-semi-katan-soft-silk-06-b.jpg'],
-  },
-  {
-    id: 'semi-katan-soft-silk-07',
-    title: 'Semi Katan Soft Silk Saree',
-    category: "Semi Katan Soft Silk Saree's",
-    length: '6 meters',
-    color: 'Wine & Silver',
-    price: semiKatanSoftSilkPrices[6],
-    images: [
-      '/images/shop-semi-katan-soft-silk-07-a.jpg',
-      '/images/shop-semi-katan-soft-silk-07-b.jpg',
-      '/images/shop-semi-katan-soft-silk-07-c.jpg',
-      '/images/shop-semi-katan-soft-silk-07-d.jpg',
-    ],
-  },
+  ...semiKatanSoftSilkImageGroups.flatMap(({ item, color, priceIndex, imageLetters }) =>
+    imageLetters.map(imageLetter => ({
+      id: `semi-katan-soft-silk-${item}-${imageLetter}`,
+      title: 'Semi Katan Soft Silk Saree',
+      category: "Semi Katan Soft Silk Saree's",
+      length: '6 meters',
+      color,
+      price: semiKatanSoftSilkPrices[priceIndex],
+      images: [`/images/shop-semi-katan-soft-silk-${item}-${imageLetter}.jpg`],
+    })),
+  ),
   {
     id: 'semi-katan-half-and-half-01',
     title: 'Semi Katan Half And Half Soft Silk Saree',
